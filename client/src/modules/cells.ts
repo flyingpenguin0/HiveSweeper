@@ -98,7 +98,7 @@ const hive = (
 ) : HiveState => {
     switch(action.type){
         case RESET_HIVE :
-
+            
         case NEW_HIVE :
         
         default : 
