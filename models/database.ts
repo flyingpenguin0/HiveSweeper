@@ -5,14 +5,14 @@ import  mongoose, { Schema, model, connect } from "mongoose";
     collection: "game_records"
 }; */
 
-interface Game  {
+export interface Game  {
     index : number;
     name : string;
     level : string;
     time : number;
 }
 
-type game = {
+export type game = {
     index : number;
     name : string;
     level : string;
@@ -26,7 +26,7 @@ enum Level{
     EXTREME
 }
 
-const gameSchema = new Schema<Game>({
+export const gameSchema = new Schema<Game>({
     index : {type : Number, required : true, unique : true},
     name : {type : String, required : true, trim:true, default:"NoNamed"},
     level : {type : String, required : true, enum:["EASY", "MEDIUM", "HARD", "EXTREME"], default:"EASY"},
