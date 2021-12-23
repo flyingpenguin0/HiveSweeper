@@ -10,7 +10,8 @@ const Hex = styled.div`
     margin : 50px;
 `;
 
-const HexCell : React.FC = () => {
+const HexCell : React.FC = (props) => {
+    const {} = props;
     return(
         <Hex>
             {}

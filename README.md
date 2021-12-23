@@ -1,6 +1,6 @@
 # HiveSweeper
-A Minesweeper with a Hexagonal Grid
-육각형 그리드를 사용하는 변형 지뢰찾기 웹 게임
+- A Minesweeper with a Hexagonal Grid
+- 육각형 그리드를 사용하는 변형 지뢰찾기 웹 게임
 
 # Working demo link 
 

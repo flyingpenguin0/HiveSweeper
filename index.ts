@@ -2,6 +2,8 @@ const path = require('path');
 import express = require('express');
 const app = express();
 app.use(express.json());
+const helmet = require("helmet");
+app.use(helmet());
 
 require("dotenv").config({path:__dirname+'/.env'});
 const PORT = process.env.PORT || 3001;
@@ -26,15 +28,18 @@ connection.once("open", ()=>{
 
 //app.use("/static", express.static(__dirname+"/public"));
 
-app.get("/api", (req : express.Request, res : express.Response) => {
+const gameRouter = require("./routes/game");
+app.use("/api", gameRouter);
+
+/* app.get("/api", (req : express.Request, res : express.Response) => {
     res.json({ message: "Hello from server!" });
-});
+}); */
 
 // Serve the files for the built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // All other requests will return the React app
-app.get('*', (req : express.Request, res : express.Response) => {
+app.get('/*', (req : express.Request, res : express.Response) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
