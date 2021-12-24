@@ -30,7 +30,7 @@ const rank = (
 ) : RecordState => {
     switch(action.type){
         case ADD_RECORD : 
-
+            return {...state, }
         default :
             return state;
     }

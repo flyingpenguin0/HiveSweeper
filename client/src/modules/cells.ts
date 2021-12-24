@@ -6,11 +6,6 @@ const RIGHT_CLICK = "cells/RIGHT_CLICK" as const;
 const LEFT_CLICK = "cells/LEFT_CLICK" as const;
 const RESET_CELL = "cells/RESET" as const;
 
-const RESET_HIVE = "cells/RESET_HIVE" as const;
-const NEW_HIVE = "cells/NEW_HIVE" as const;
-
-type HiveState = Array<CellState>;
-
 type CellState = {
     index : number;
 	isBee : boolean;
@@ -47,17 +42,8 @@ export const resetCell = () => {
     type : RESET_CELL;
 }
 
-// hive action creator
-export const resetHive = () => {
-    type : RESET_HIVE;
-}
-export const newHive = (level : Level, window : Window) => {
-    type : NEW_HIVE;
-}
-
 // type of action object
 type CellAction = ReturnType<typeof rightClick> | ReturnType<typeof leftClick> | ReturnType<typeof resetCell>;
-type HiveAction = ReturnType<typeof resetHive> | ReturnType<typeof newHive>;
 
 
 // initial states
@@ -72,8 +58,6 @@ const initCellState : CellState = {
 	left : 0
 }
 
-const initHiveState : HiveState = [];
-
 // reducer fnc
 
 const cell = (
@@ -82,28 +66,37 @@ const cell = (
 ) : CellState => {
     switch(action.type){
         case LEFT_CLICK :
-
+            if(state.isOpen || state.isFlagged || state.isQuestion){
+                return state;
+            } else if (!state.isBee){
+                state.isOpen = true;
+                return state;
+            } else {
+                state.isOpen = true;
+                // how to end game??
+            }
         case RIGHT_CLICK : 
-
+            if(state.isOpen){
+                return state;
+            } else if(state.isFlagged){
+                state.isFlagged = false;
+                state.isQuestion = true;
+                return state;
+            } else if(state.isQuestion){
+                state.isQuestion = false;
+                return state;
+            } else {
+                state.isFlagged = true;
+                return state;
+            }
         case RESET_CELL :
-
+            state.isOpen = false;
+            state.isFlagged = false;
+            state.isQuestion = false;
+            return state;
         default : 
             return state;
     }
 }
 
-const hive = (
-    state : HiveState = initHiveState,
-    action : HiveAction
-) : HiveState => {
-    switch(action.type){
-        case RESET_HIVE :
-            
-        case NEW_HIVE :
-        
-        default : 
-            return state;
-    }
-}
-
-export default { cell, hive }
+export default cell;

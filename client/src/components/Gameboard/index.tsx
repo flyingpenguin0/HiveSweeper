@@ -12,7 +12,7 @@ const Gameboard : React.FC = () => {
     const test : Array<number> = [1,2,3,4,5,6,7,8,9,10];
     return(
         <Wrapper>
-            {test.map(num=> <HexCell /> )}
+            {test.map(num=> <HexCell key={num}/> )}
         </Wrapper>
     )
 }

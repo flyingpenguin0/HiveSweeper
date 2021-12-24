@@ -10,7 +10,7 @@ const Hex = styled.div`
     margin : 50px;
 `;
 
-const HexCell : React.FC = (props) => {
+const Cell : React.FC = (props) => {
     const {} = props;
     return(
         <Hex>
@@ -19,4 +19,4 @@ const HexCell : React.FC = (props) => {
     )
 }
 
-export default HexCell;
+export default Cell;

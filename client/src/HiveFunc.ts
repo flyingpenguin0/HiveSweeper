@@ -1,3 +1,4 @@
+
 export type Cell = {
 	index : number;
 	isBee : boolean;
@@ -9,16 +10,15 @@ export type Cell = {
 	left : number;
 }
 
-const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) =>{
+export const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) : Array<Cell> => {
 	const width : number = 100;
 	const height : number = 0.5*width*Math.sqrt(3);
-	const totNum : number = (widthNum*2+1)*heightNum*0.5;
+	const totNum : number = (widthNum*2+1)*(heightNum-1)*0.5+widthNum;
 
-	let list : Array<number> = [...Array(totNum).keys()];
-	let shuffledList : Array<number> = list
-		.map((value) => ({ value, sort: Math.random() }))
- 		.sort((a, b) => a.sort - b.sort)
- 		.map(({ value }) => value);
+	let list : Array<number> = [Array.from(Array(totNum).keys())].map((x) : number =>{
+			return(x++)
+		});
+	let shuffledList : Array<number> = list.map((value) => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value);
 	let beeList = shuffledList.splice(beeNum, totNum-beeNum);
 	
 	let cells : Cell[] = list.map(cell => {
@@ -31,14 +31,14 @@ const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) =>{
 
 	let cells2 : Cell[] = cells.map(cell => {
 		let neighborlist : Array<number> = [];
-		Switch( cell.index ){
+		switch( true ){
 			// first row ( top-left corner / middle of top row / top-right corner )
-			case 1 :
+			case cell.index == 1 :
 				neighborlist = [2, widthNum+1];
 				cell.top = 0;
 				cell.left = 0;
 				break;
-			case widthNum :
+			case cell.index == widthNum :
 				neighborlist = [widthNum-1, widthNum*2-1];
 				cell.top = 0;
 				cell.left = (cell.index-1) * width;
@@ -50,45 +50,71 @@ const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) =>{
 				break;
 
 			// left row ( bottom-left corner / start of odd row / start of even row )
-			case (2*widthNum-1)*(0.5*heightNum-1)+1 :
+			case cell.index == (2*widthNum-1)*(0.5*(heightNum-1))+1 :
 				neighborlist = [cell.index-widthNum+1, cell.index+1];
-				cell.top = 0;
+				cell.top = (heightNum - 1) * 0.75 * height;
 				cell.left = 0;
 				break;
 			case (cell.index-1)%(2*widthNum-1) == 0 :
-				neighborlist = [];
+				neighborlist = [cell.index-widthNum+1, cell.index+1, cell.index+widthNum];
 				cell.top = (cell.index - 1)/(2*widthNum-1) * 0.75 * height;
 				cell.left = 0;
 				break;
 			case (cell.index-widthNum-1)%(2*widthNum-1) == 0 :
-				neighborlist = [];
+				neighborlist = [cell.index-widthNum, cell.index-widthNum+1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
 				cell.top = 0;
 				cell.left = 0.5*width;
 				break;
 
 			// right row ( bottom-right corner / end of odd row / end of even row )
-			case :
-				neighborlist = [];
+			case cell.index == totNum:
+				neighborlist = [cell.index-widthNum, cell.index-1];
+				cell.top = (heightNum - 1) * 0.75 * height;
+				cell.left = (widthNum-1)*width;
 				break;
-			case :
-				neighborlist = [];
+			case (cell.index + widthNum -1)%(2*widthNum-1)==0:
+				neighborlist = [cell.index-widthNum, cell.index-1, cell.index+widthNum-1];
+				cell.top = ((cell.index+widthNum-1)/(2*widthNum-1) * 2 - 2) * 0.75 * height;
+				cell.left = (widthNum-1)*width;
 				break;
-			case :
-				neighborlist = [];
+			case cell.index % (2*widthNum-1)==0:
+				neighborlist = [cell.index-widthNum, cell.index-widthNum+1, cell.index-1, cell.index+widthNum-1, cell.index+widthNum];
+				cell.top = ( cell.index/(2*widthNum-1) * 2 - 1) * 0.75 * height;
+				cell.left = (widthNum-1.5)*width;
 				break;
 
 			// bottom row ( middle of bottom row )
-			case :
-				neighborlist = [];
+			case totNum - cell.index < widthNum - 1 :
+				neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1];
+				cell.top = (heightNum - 1) * 0.75 * height;
+				cell.left = (widthNum - totNum + cell.index - 1) * width;
 				break;
-		}
 
-		let neighBeeNum : number = 0;
-		if(
-		neighbor.forEach(num => {
-			if(cells[num-1].isBee) neighBeeNum++;
+            // not on any borders && on an odd row
+            case 1 < cell.index%(2*widthNum-1) && cell.index%(2*widthNum-1) < widthNum:
+                neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
+				cell.top = Math.floor(cell.index/(2*widthNum-1)) * 2 * 0.75 * height ;
+				cell.left = (cell.index % (2*widthNum-1) - 1) * width ;
+                break;
+            // not on any borders && on an even row
+            case widthNum+1 < cell.index%(2*widthNum-1) && cell.index%(2*widthNum-1) < 2*widthNum - 1:
+                neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
+				cell.top = (Math.floor(cell.index/(2*widthNum-1)) * 2 + 1) * 0.75 * height;
+				cell.left = (cell.index%(2*widthNum-1)-widthNum-1)*width;
+                break;
+		}
+		
+		neighborlist.forEach(num => {
+			if(cells[num-1].isBee) cell.neighbor++;
 		});
 		
         return(cell);
 	});
+	return(cells2);
+}
+
+export const timeFormatter = (num : number) : string | undefined => {
+	if(num>=3600 && num<=86400) return `${Math.floor(num/3600)}Hr ${Math.floor((num%3600)/60)}Min  ${num%60}Sec}`;
+	else if(num<3600 && num>=60) return `${Math.floor(num/60)}Min ${num%60}Sec`;
+	else if(num<60 && num>=0) return `${num}Sec`;
 }
