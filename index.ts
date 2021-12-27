@@ -56,6 +56,8 @@ interface ServerToClientEvents {
     basicEmit: (a: number, b: string, c: Buffer) => void;
     withAck: (d: string, callback: (e: number) => void) => void;
     createRecord : (name:string) => void;
+    confirmRecord : (game:game) => void;
+    errRecord : (err:any) => void;
 }
 interface ClientToServerEvents {
     hello: () => void;
