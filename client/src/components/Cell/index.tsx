@@ -1,22 +1,63 @@
-import React from "react";
-import styled from "styled-components";
+import React, { ReactNode } from "react";
+import styled, { keyframes } from "styled-components";
 
-const Hex = styled.div`
+const Wrapper = styled.div<{top:number, left:number}>`
     width: ${Math.sqrt(3)*50}px;
+    position : absolute;
+    text-align : center;
+    aligh-items : center;
+    top : ${(props) => props.top}px;
+    left : ${(props) => props.left}px;
     height : 100px;
     background-color: lightblue;
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    
-    margin : 50px;
 `;
 
-const Cell : React.FC = (props) => {
-    const {} = props;
+interface Prr {
+    key : number;
+    isBee : boolean;
+    neighbor : number;
+    isOpen : boolean;
+    isFlagged : boolean;
+    isQuestion : boolean;
+    top : number;
+    left : number;
+}
+
+type CellProps = {
+    key : number;
+    isBee : boolean;
+    neighbor : number;
+    isOpen : boolean;
+    isFlagged : boolean;
+    isQuestion : boolean;
+    top : number;
+    left : number;
+}
+
+interface Props {
+    children : null;
+    CellProps : CellProps;
+}
+
+const Cell : React.FC<Prr> = ( CellProps : CellProps ) => {
+    const {key, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left} = CellProps;
+
     return(
-        <Hex>
-            {}
-        </Hex>
+        <Wrapper>
+            {isOpen
+                ? key
+                : isBee
+                    ? null
+                    : isFlagged
+                        ? null
+                        : isQuestion
+                            ? null
+                            : neighbor
+            }
+        </Wrapper>
     )
 }
 
 export default Cell;
+

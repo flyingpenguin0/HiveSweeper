@@ -6,7 +6,7 @@ const RIGHT_CLICK = "cells/RIGHT_CLICK" as const;
 const LEFT_CLICK = "cells/LEFT_CLICK" as const;
 const RESET_CELL = "cells/RESET" as const;
 
-type CellState = {
+export type CellState = {
     index : number;
 	isBee : boolean;
 	neighbor : number;
@@ -30,17 +30,17 @@ enum Window{
 }
 
 // cell action creator
-export const rightClick = (current : CellState) => {
-    type : RIGHT_CLICK;
-    payload : current;
-}
-export const leftClick = (current : CellState) => {
-    type : LEFT_CLICK;
-    payload : current;
-}
-export const resetCell = () => {
-    type : RESET_CELL;
-}
+export const rightClick = (current : CellState) => ({
+    type : RIGHT_CLICK,
+    payload : current
+});
+export const leftClick = (current : CellState) => ({
+    type : LEFT_CLICK,
+    payload : current
+});
+export const resetCell = () => ({
+    type : RESET_CELL
+});
 
 // type of action object
 type CellAction = ReturnType<typeof rightClick> | ReturnType<typeof leftClick> | ReturnType<typeof resetCell>;
@@ -73,6 +73,7 @@ const cell = (
                 return state;
             } else {
                 state.isOpen = true;
+                return state;
                 // how to end game??
             }
         case RIGHT_CLICK : 
@@ -94,6 +95,7 @@ const cell = (
             state.isFlagged = false;
             state.isQuestion = false;
             return state;
+
         default : 
             return state;
     }

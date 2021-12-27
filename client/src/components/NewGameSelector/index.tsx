@@ -1,15 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import {CellState, Level, Window} from "../../modules/hive";
 
-const NewGameSelector = () => {
+type SelectorProps = {
+    resetHive : () => void;
+    newHive : (level : Level, window : Window) => void;
+    hive : Array<CellState>;
+}
+
+const NewGameSelector = ({resetHive, newHive, hive} : SelectorProps) => {
     return(
         <Wrapper>
             <h5>New Game</h5>
             <ButtonWrapper>
-                <button>EASY</button>
-                <button>MEDIUM</button>
-                <button>HARD</button>
-                <button>EXTREME</button>
+                <button onClick={()=>newHive(1,0)}>EASY</button>
+                <button onClick={()=>newHive(2,0)}>MEDIUM</button>
+                <button onClick={()=>newHive(3,0)}>HARD</button>
+                <button onClick={()=>newHive(4,0)}>EXTREME</button>
             </ButtonWrapper>
         </Wrapper>
     )

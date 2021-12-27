@@ -1,9 +1,10 @@
 import React from "react";
 //components
 import Navbar from "./Navbar";
-import Gameboard from "./Gameboard";
+import GameBoard from "./Gameboard";
+import GameBoardContainer from "./Gameboard/container";
 import Console from "./Console";
-import NewGameSelector from "./NewGameSelector";
+import SelectorContainer from "./NewGameSelector/selectorContainer";
 import styled from "styled-components";
 
 
@@ -14,9 +15,9 @@ const GamePage : React.FC = () => {
             <Navbar/>
             <ConsoleWrapper>
                 <Console/>
-                <NewGameSelector/>
+                <SelectorContainer/>
             </ConsoleWrapper>
-            <Gameboard />
+            <GameBoardContainer/>
         </div>
     )
 }

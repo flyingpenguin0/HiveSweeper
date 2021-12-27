@@ -4,10 +4,11 @@ import styled from "styled-components";
 const Console = () => {
     return(
         <Wrapper>
-            <div>Total</div>
-            <div>Bees</div>
-            <div>Open</div>
-            <div>Timer</div>
+            <div>Total : 266</div>
+            <div>Bees : 45</div>
+            <div>Open : 0</div>
+            <div>Timer 00:00:00</div>
+            <button>Reset</button>
         </Wrapper>
     )
 }

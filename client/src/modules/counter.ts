@@ -4,15 +4,15 @@ const INCREASE_FLAG = "counter/INCREASE_FLAG" as const;
 const RESET = "counter/reset" as const;
 
 //액션 생성함수
-export const increaseCell = () => {
-    type : INCREASE_CELL;
-}
-export const increaseFlag = () => {
-    type : INCREASE_FLAG;
-}
-export const reset = () => {
-    type : RESET;
-}
+export const increaseCell = () => ({
+    type : INCREASE_CELL
+});
+export const increaseFlag = () => ({
+    type : INCREASE_FLAG
+});
+export const reset = () => ({
+    type : RESET
+});
 
 //액션 객체의 type
 type CounterAction = ReturnType<typeof increaseCell> | ReturnType<typeof increaseFlag> | ReturnType<typeof reset>;

@@ -1,15 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 import axios from "axios";
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './modules';
+// redux
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import rootReducer from "./modules";
+import ReduxThunk from "redux-thunk";
+import logger from "redux-logger";
+//axios
+axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "localhost:8000/" : "/";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'localhost:8000/' : '/';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk, logger)));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +21,6 @@ ReactDOM.render(
       <App />
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root') 
 );
 

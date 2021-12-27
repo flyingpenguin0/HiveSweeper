@@ -8,10 +8,10 @@ type RecordState = {
 }
 
 // action creator
-export const addRecord = (current : RecordState) => {
-    type : ADD_RECORD;
-    payload : current;
-}
+export const addRecord = (current : RecordState) => ({
+    type : ADD_RECORD,
+    payload : current
+})
 
 // type of action object
 type RecordAction = ReturnType<typeof addRecord>;

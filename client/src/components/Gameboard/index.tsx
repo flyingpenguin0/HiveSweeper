@@ -1,20 +1,46 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import HexCell from "../HexCell";
+import Cell from "../Cell";
+import { setConstantValue } from "typescript";
+import {HiveState, CellState, Level, Window} from "../../modules/hive";
 
 const Wrapper = styled.div`
     width:100%;
-    height: 100vh;
+    height: 90vh;
     border : solid 1px black;
+    position: relative;
 `;
 
-const Gameboard : React.FC = () => {
-    const test : Array<number> = [1,2,3,4,5,6,7,8,9,10];
+type HiveProps = {
+    resetHive : () => void;
+    newHive : (level : Level, window : Window) => void;
+    leftClick : (index : number) => void;
+    rightClick : (index : number) => void;
+    gameOver : () => void;
+    hive : Array<CellState>;
+}
+
+const GameBoard = ({resetHive, newHive, leftClick, rightClick, gameOver, hive} : HiveProps) => {
     return(
         <Wrapper>
-            {test.map(num=> <HexCell key={num}/> )}
+            {hive.map((cell) =>{
+                return(
+                    <Cell
+                    key={cell.index}
+                    isBee={cell.isBee}
+                    neighbor={cell.neighbor}
+                    isOpen={cell.isOpen}
+                    isFlagged={cell.isFlagged}
+                    isQuestion={cell.isQuestion}
+                    top={cell.top}
+                    left={cell.left}
+                    onClick={()=>leftClick(cell.index)}
+                    onContextMenu={()=>rightClick(cell.index)}
+                    />
+                )
+            })}
         </Wrapper>
     )
 }
 
-export default Gameboard;
+export default GameBoard;

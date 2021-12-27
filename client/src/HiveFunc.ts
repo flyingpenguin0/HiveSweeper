@@ -1,5 +1,5 @@
 
-export type Cell = {
+export interface Cell {
 	index : number;
 	isBee : boolean;
 	neighbor : number;
@@ -13,23 +13,30 @@ export type Cell = {
 export const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) : Array<Cell> => {
 	const width : number = 100;
 	const height : number = 0.5*width*Math.sqrt(3);
-	const totNum : number = (widthNum*2+1)*(heightNum-1)*0.5+widthNum;
+	const totNum : number = (widthNum*2-1)*(heightNum-1)*0.5+widthNum;
 
-	let list : Array<number> = [Array.from(Array(totNum).keys())].map((x) : number =>{
+	/* let list : Array<number> = [Array.from(Array(totNum).keys())].map((x) =>{
 			return(x++)
-		});
+		}); */
+	let list = new Array(totNum).fill(null).map((_, i) => i + 1);
+
+	console.log(list);
 	let shuffledList : Array<number> = list.map((value) => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value);
-	let beeList = shuffledList.splice(beeNum, totNum-beeNum);
+	console.log(shuffledList);
+
+	let beeList = shuffledList.slice(0, beeNum);
+	console.log(beeList);
 	
-	let cells : Cell[] = list.map(cell => {
+	let cells : Array<Cell> = list.map(cell => {
 		if(beeList.includes(cell)){
 			return({index:cell, isBee:true, neighbor:0, isOpen:false, isFlagged:false, isQuestion:false, top:0, left:0});
 		} else {
 			return({index:cell, isBee:false, neighbor:0, isOpen:false, isFlagged:false, isQuestion:false, top:0, left:0});
 		}
 	});
+	console.log(cells);
 
-	let cells2 : Cell[] = cells.map(cell => {
+	let cells2 : Array<Cell> = cells.map(cell => {
 		let neighborlist : Array<number> = [];
 		switch( true ){
 			// first row ( top-left corner / middle of top row / top-right corner )
@@ -38,12 +45,12 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 				cell.top = 0;
 				cell.left = 0;
 				break;
-			case cell.index == widthNum :
+			case cell.index < widthNum :
 				neighborlist = [widthNum-1, widthNum*2-1];
 				cell.top = 0;
 				cell.left = (cell.index-1) * width;
 				break;
-			case cell.index < widthNum :
+			case cell.index == widthNum :
 				neighborlist = [cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
 				cell.top = 0;
 				cell.left = (widthNum-1)*width;
@@ -57,12 +64,12 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 				break;
 			case (cell.index-1)%(2*widthNum-1) == 0 :
 				neighborlist = [cell.index-widthNum+1, cell.index+1, cell.index+widthNum];
-				cell.top = (cell.index - 1)/(2*widthNum-1) * 0.75 * height;
+				cell.top = (cell.index - 1)/(2*widthNum-1) * 2 * 0.75 * height;
 				cell.left = 0;
 				break;
 			case (cell.index-widthNum-1)%(2*widthNum-1) == 0 :
 				neighborlist = [cell.index-widthNum, cell.index-widthNum+1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
-				cell.top = 0;
+				cell.top = ((cell.index-widthNum-1)/(2*widthNum-1)* 2 + 1) * 0.75 * height;
 				cell.left = 0.5*width;
 				break;
 
@@ -84,7 +91,7 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 				break;
 
 			// bottom row ( middle of bottom row )
-			case totNum - cell.index < widthNum - 1 :
+			case (totNum - cell.index) < (widthNum - 1) :
 				neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1];
 				cell.top = (heightNum - 1) * 0.75 * height;
 				cell.left = (widthNum - totNum + cell.index - 1) * width;
@@ -100,16 +107,17 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
             case widthNum+1 < cell.index%(2*widthNum-1) && cell.index%(2*widthNum-1) < 2*widthNum - 1:
                 neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
 				cell.top = (Math.floor(cell.index/(2*widthNum-1)) * 2 + 1) * 0.75 * height;
-				cell.left = (cell.index%(2*widthNum-1)-widthNum-1)*width;
+				cell.left = (cell.index%(2*widthNum-1)-widthNum-1 +0.5)*width;
                 break;
 		}
 		
-		neighborlist.forEach(num => {
+		neighborlist.forEach((num : number) : void => {
 			if(cells[num-1].isBee) cell.neighbor++;
 		});
 		
         return(cell);
 	});
+	console.log(cells2);
 	return(cells2);
 }
 
