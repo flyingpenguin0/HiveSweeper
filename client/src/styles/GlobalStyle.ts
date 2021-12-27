@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
 
 export const Globalstyle = createGlobalStyle`
+    ${reset}
     :root{
         --lightYellow : #FFE87C;
         --yellow : #FFDB58;
