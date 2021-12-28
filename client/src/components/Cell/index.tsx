@@ -1,7 +1,8 @@
 import React, { ReactNode } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { DefaultTheme, keyframes, StyledComponent } from "styled-components";
+//import { leftClick, rightClick } from "../../modules/hive";
 
-const Wrapper = styled.div<{top:number, left:number}>`
+const Wrapper : any = styled.div<Prr>`
     width: ${Math.sqrt(3)*50}px;
     position : absolute;
     text-align : center;
@@ -22,6 +23,8 @@ interface Prr {
     isQuestion : boolean;
     top : number;
     left : number;
+    leftClick : (index:number) => void;
+    rightClick : (index:number) => void;
 }
 
 type CellProps = {
@@ -33,6 +36,8 @@ type CellProps = {
     isQuestion : boolean;
     top : number;
     left : number;
+    leftClick : (index:number) => void;
+    rightClick : (index:number) => void;
 }
 
 interface Props {
@@ -40,11 +45,11 @@ interface Props {
     CellProps : CellProps;
 }
 
-const Cell : React.FC<Prr> = ( CellProps : CellProps ) => {
-    const {key, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left} = CellProps;
+const Cell = ( CellProps : CellProps ) => {
+    const {key, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, leftClick, rightClick} = CellProps;
 
     return(
-        <Wrapper>
+        <Wrapper onClick={()=>leftClick(key)} onContextMenu={()=>rightClick(key)}>
             {isOpen
                 ? key
                 : isBee

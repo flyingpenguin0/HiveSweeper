@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components";
+import { SocketContext } from "../../context/socket";
 import {CellState, Level, Window} from "../../modules/hive";
+
+//import io, {Socket} from 'socket.io-client';
+//import SocketIOClient from 'socket.io-client';
 
 type SelectorProps = {
     resetHive : () => void;
@@ -9,6 +13,21 @@ type SelectorProps = {
 }
 
 const NewGameSelector = ({resetHive, newHive, hive} : SelectorProps) => {
+    //const socketRef : SocketIOClient = useRef();
+    //const SOCKET_SERVER_URL = 'http://localhost:4000';
+    //const socket : Socket = io("http://localhost:8000/");
+    const socket = useContext(SocketContext);
+    const [isLoading, setIsLoading]=useState(false);
+
+    const refresh = (level:string) => {
+        socket.emit("newGame", {level:level});
+    }
+
+    useEffect(()=>{
+        setIsLoading(true);
+        refresh("EASY");
+    },[])
+
     return(
         <Wrapper>
             <h5>New Game</h5>
@@ -17,6 +36,7 @@ const NewGameSelector = ({resetHive, newHive, hive} : SelectorProps) => {
                 <button onClick={()=>newHive(2,0)}>MEDIUM</button>
                 <button onClick={()=>newHive(3,0)}>HARD</button>
                 <button onClick={()=>newHive(4,0)}>EXTREME</button>
+                <button onClick={()=>resetHive()}>RESET</button>
             </ButtonWrapper>
         </Wrapper>
     )

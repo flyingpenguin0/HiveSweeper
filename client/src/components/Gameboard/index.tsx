@@ -34,8 +34,8 @@ const GameBoard = ({resetHive, newHive, leftClick, rightClick, gameOver, hive} :
                     isQuestion={cell.isQuestion}
                     top={cell.top}
                     left={cell.left}
-                    onClick={()=>leftClick(cell.index)}
-                    onContextMenu={()=>rightClick(cell.index)}
+                    leftClick={leftClick}
+                    rightClick={rightClick}
                     />
                 )
             })}

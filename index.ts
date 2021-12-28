@@ -6,7 +6,7 @@ const helmet = require("helmet");
 app.use(helmet());
 
 require("dotenv").config({path:__dirname+'/.env'});
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8000;
 
 const cors = require("cors");
 app.use(cors());
@@ -42,13 +42,13 @@ const gameRouter = require("./routes/game");
 app.use("/api", gameRouter);
 
 // Serve the files for the built React app
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+//app.use(express.static(path.resolve(__dirname, '../client/build')));
 
 // All other requests will return the React app
-app.get('/*', (req : express.Request, res : express.Response) => {
+/* app.get('/*', (req : express.Request, res : express.Response) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
-
+ */
 
 // socket.io setup
 interface ServerToClientEvents {
@@ -127,6 +127,7 @@ io.on("connection", ( socket:Socket ) =>{
     });
 })
 
-app.listen(PORT, () => {
+const http = require("http").Server(app);
+http.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
