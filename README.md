@@ -4,6 +4,8 @@
 
 # Working demo link 
 
+ 개발 미완성
+ 
 # Installation prerequisites 
 You will need : 
   1. Node.js and npm installed on your machine
