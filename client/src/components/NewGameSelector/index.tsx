@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components";
 import { SocketContext } from "../../context/socket";
-import {CellState, Level, Window} from "../../modules/hive";
+import {CellState, Level, Window} from "../../modules/game";
 
 //import io, {Socket} from 'socket.io-client';
 //import SocketIOClient from 'socket.io-client';
@@ -9,22 +9,25 @@ import {CellState, Level, Window} from "../../modules/hive";
 type SelectorProps = {
     resetHive : () => void;
     newHive : (level : Level, window : Window) => void;
-    hive : Array<CellState>;
+    game : {
+        hive : Array<CellState>,
+        gameOver : boolean,
+        gameEnd : boolean
+    };
 }
 
-const NewGameSelector = ({resetHive, newHive, hive} : SelectorProps) => {
+const NewGameSelector = ({resetHive, newHive, game} : SelectorProps) => {
     //const socketRef : SocketIOClient = useRef();
     //const SOCKET_SERVER_URL = 'http://localhost:4000';
     //const socket : Socket = io("http://localhost:8000/");
+
     const socket = useContext(SocketContext);
-    const [isLoading, setIsLoading]=useState(false);
 
     const refresh = (level:string) => {
         socket.emit("newGame", {level:level});
     }
 
     useEffect(()=>{
-        setIsLoading(true);
         refresh("EASY");
     },[])
 

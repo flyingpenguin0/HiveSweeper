@@ -1,14 +1,11 @@
 import { combineReducers } from "redux";
 import counter from "./counter";
-import cell from "./cells";
-import hive from "./hive";
+import game from "./game";
 import leaderboard from "./leaderboard";
 
 const rootReducer = combineReducers({
-    counter : counter,
-    cell : cell,
-    hive : hive,
-    leaderboard : leaderboard
+    counter,
+    game
 });
 
 export default rootReducer;

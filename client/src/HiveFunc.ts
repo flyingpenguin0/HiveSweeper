@@ -1,13 +1,13 @@
 
-export interface Cell {
-	index : number;
-	isBee : boolean;
-	neighbor : number;
-	isOpen : boolean;
-	isFlagged : boolean;
-	isQuestion : boolean;
-	top : number;
-	left : number;
+export type Cell = {
+	index : number,
+	isBee : boolean,
+	neighbor : number,
+	isOpen : boolean,
+	isFlagged : boolean,
+	isQuestion : boolean,
+	top : number,
+	left : number
 }
 
 export const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) : Array<Cell> => {
@@ -19,13 +19,9 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 			return(x++)
 		}); */
 	let list = new Array(totNum).fill(null).map((_, i) => i + 1);
-
-	console.log(list);
 	let shuffledList : Array<number> = list.map((value) => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value);
-	console.log(shuffledList);
 
 	let beeList = shuffledList.slice(0, beeNum);
-	console.log(beeList);
 	
 	let cells : Array<Cell> = list.map(cell => {
 		if(beeList.includes(cell)){
@@ -34,7 +30,6 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 			return({index:cell, isBee:false, neighbor:0, isOpen:false, isFlagged:false, isQuestion:false, top:0, left:0});
 		}
 	});
-	console.log(cells);
 
 	let cells2 : Array<Cell> = cells.map(cell => {
 		let neighborlist : Array<number> = [];
@@ -118,7 +113,7 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
         return(cell);
 	});
 	console.log(cells2);
-	return(cells2);
+	return( cells2);
 }
 
 export const timeFormatter = (num : number) : string | undefined => {

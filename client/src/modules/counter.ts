@@ -1,9 +1,9 @@
-//액션
+// 액션
 const INCREASE_CELL = "counter/INCREASE_CELL" as const;
 const INCREASE_FLAG = "counter/INCREASE_FLAG" as const;
 const RESET = "counter/reset" as const;
 
-//액션 생성함수
+// 액션 생성함수
 export const increaseCell = () => ({
     type : INCREASE_CELL
 });
@@ -14,10 +14,10 @@ export const reset = () => ({
     type : RESET
 });
 
-//액션 객체의 type
+// 액션 객체의 type
 type CounterAction = ReturnType<typeof increaseCell> | ReturnType<typeof increaseFlag> | ReturnType<typeof reset>;
 
-//initial state의 type
+// initial state의 type
 type CounterState = {
     cellCount : number;
     flagCount : number;
@@ -28,8 +28,7 @@ const initialState : CounterState ={
     flagCount : 0
 }
 
-
-//reducer fnc
+// reducer fnc
 const counter = (
     state : CounterState = initialState,
     action : CounterAction

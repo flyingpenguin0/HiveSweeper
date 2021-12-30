@@ -8,7 +8,6 @@ import SelectorContainer from "./NewGameSelector/selectorContainer";
 import styled from "styled-components";
 
 
-
 const GamePage : React.FC = () => {
     return(
         <div>

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import Cell from "../Cell";
 import { setConstantValue } from "typescript";
-import {HiveState, CellState, Level, Window} from "../../modules/hive";
+import {HiveState, CellState, Level, Window} from "../../modules/game";
 
 const Wrapper = styled.div`
     width:100%;
@@ -16,17 +16,21 @@ type HiveProps = {
     newHive : (level : Level, window : Window) => void;
     leftClick : (index : number) => void;
     rightClick : (index : number) => void;
-    gameOver : () => void;
-    hive : Array<CellState>;
+    game : {
+        hive : Array<CellState>,
+        gameOver : boolean,
+        gameEnd : boolean
+    };
 }
 
-const GameBoard = ({resetHive, newHive, leftClick, rightClick, gameOver, hive} : HiveProps) => {
+const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps) => {
     return(
         <Wrapper>
-            {hive.map((cell) =>{
+            {game.hive.map((cell) =>{
                 return(
                     <Cell
                     key={cell.index}
+                    index={cell.index}
                     isBee={cell.isBee}
                     neighbor={cell.neighbor}
                     isOpen={cell.isOpen}

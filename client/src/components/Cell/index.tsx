@@ -1,21 +1,30 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styled, { DefaultTheme, keyframes, StyledComponent } from "styled-components";
-//import { leftClick, rightClick } from "../../modules/hive";
+import { GiBee } from "react-icons/gi";
+import { FaFlag, FaQuestion } from "react-icons/fa";
 
-const Wrapper : any = styled.div<Prr>`
+const Wrapper = styled.div<Prr>`
     width: ${Math.sqrt(3)*50}px;
     position : absolute;
     text-align : center;
-    aligh-items : center;
-    top : ${(props) => props.top}px;
-    left : ${(props) => props.left}px;
+    margin:auto;
+    top : ${(props : CellProps) => props.top? props.top : 0}px;
+    left : ${(props : CellProps) => props.left? props.left : 0}px;
     height : 100px;
-    background-color: lightblue;
+    background-color: ${(props) => props.isOpen? `var(--yellow)` : `var(--lightGrey)`};
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+
+    &:hover{
+        background-color : ${(props) => props.isOpen? `var(--yellow)` : `var(--midGrey)`};
+        cursor : ${(props) => props.isOpen ? `auto` : `pointer`};
+    }
+    div{
+        font-size:2.5rem;
+    }
 `;
 
 interface Prr {
-    key : number;
+    index : number;
     isBee : boolean;
     neighbor : number;
     isOpen : boolean;
@@ -28,7 +37,7 @@ interface Prr {
 }
 
 type CellProps = {
-    key : number;
+    index : number;
     isBee : boolean;
     neighbor : number;
     isOpen : boolean;
@@ -40,26 +49,27 @@ type CellProps = {
     rightClick : (index:number) => void;
 }
 
-interface Props {
-    children : null;
-    CellProps : CellProps;
-}
-
 const Cell = ( CellProps : CellProps ) => {
-    const {key, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, leftClick, rightClick} = CellProps;
+    const {index, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, leftClick, rightClick} = CellProps;
 
+    const rightCl = (event:any) => {
+        event.preventDefault;
+        rightClick(index);
+    }
     return(
-        <Wrapper onClick={()=>leftClick(key)} onContextMenu={()=>rightClick(key)}>
-            {isOpen
-                ? key
+        <Wrapper onClick={()=>leftClick(index)} onContextMenu={rightCl}>
+            <div>
+            {!isOpen
+                ? null
                 : isBee
-                    ? null
+                    ? <GiBee/>
                     : isFlagged
-                        ? null
+                        ? <FaFlag/>
                         : isQuestion
-                            ? null
+                            ? <FaQuestion/>
                             : neighbor
             }
+            </div>
         </Wrapper>
     )
 }

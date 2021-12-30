@@ -15,13 +15,13 @@ export interface ServerToClientEvents {
     noArg: () => void;
     basicEmit: (a: number, b: string, c: Buffer) => void;
     withAck: (d: string, callback: (e: number) => void) => void;
-    createRecord : (name:string) => void;
     confirmRecord : (game:game) => void;
     errRecord : (err:any) => void;
 }
 
 export interface ClientToServerEvents {
     hello: () => void;
+    createRecord : (name:string, level:string) => void;
 }
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_URL);
 

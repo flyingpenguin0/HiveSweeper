@@ -1,32 +1,29 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GameBoard from "./index";
-import {resetHive, newHive, leftClick, rightClick, gameOver, HiveState, CellState, Window, Level} from "../../modules/hive";
+import {resetHive, newHive, leftClick, rightClick, GameState, HiveState, CellState, Window, Level} from "../../modules/game";
 import { RootState } from '../../modules';
 
 const GameBoardContainer = () => {
 
-    const Hive = useSelector((state:RootState) => state.hive);
+    const Game = useSelector((state:RootState) => state.game);
     const dispatch = useDispatch();
 
-    const resetHive = () => {
+    const onResetHive = () => {
         dispatch(resetHive());
     }
-    const newHive = (level : Level, window : Window) => {
+    const onNewHive = (level : Level, window : Window) => {
         dispatch(newHive(level, window));
     }
-    const leftClick = (index : number) => {
+    const onLeftClick = (index : number) => {
         dispatch(leftClick(index));
     }
-    const rightClick = (index : number) => {
+    const onRightClick = (index : number) => {
         dispatch(rightClick(index));
-    }
-    const gameOver = () => {
-        dispatch(gameOver());
     }
     
     return(
-        <GameBoard resetHive={resetHive} newHive={newHive} leftClick={leftClick} rightClick={rightClick} gameOver={gameOver} hive={Hive}/>
+        <GameBoard resetHive={onResetHive} newHive={onNewHive} leftClick={onLeftClick} rightClick={onRightClick} game={Game}/>
     );
 }
 

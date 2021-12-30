@@ -55,16 +55,17 @@ interface ServerToClientEvents {
     noArg: () => void;
     basicEmit: (a: number, b: string, c: Buffer) => void;
     withAck: (d: string, callback: (e: number) => void) => void;
-    createRecord : (name:string) => void;
     confirmRecord : (game:game) => void;
     errRecord : (err:any) => void;
 }
 interface ClientToServerEvents {
+    createRecord : (name:string, level:string) => void;
     hello: () => void;
 }
 interface InterServerEvents {
     ping: () => void;
 }
+
 interface SocketData {
     name: string;
     level: string;
@@ -128,6 +129,6 @@ io.on("connection", ( socket:Socket ) =>{
 })
 
 const http = require("http").Server(app);
-http.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });

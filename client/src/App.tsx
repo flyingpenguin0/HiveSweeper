@@ -7,18 +7,22 @@ import NotFoundPage from "./components/NotFoundPage";
 //theme
 import { ThemeProvider } from "styled-components";
 import { theme_dark, theme_light } from "./styles/theme";
+// socket context import
+import {socket, SocketContext} from "./context/socket";
 
 const App = ()=> {
   return (
     <div className="App">
       <Router>
         <ThemeProvider theme={theme_dark}>
-          <Routes>
-            <Route path="/intro" element={<IntroPage/>} />
-            <Route path="/play" element={<GamePage/>} />
-            <Route path="/*" element={<NotFoundPage/>} />
-          </Routes>
-          <Globalstyle/>
+          <SocketContext.Provider value={socket}>
+            <Routes>
+              <Route path="/intro" element={<IntroPage/>} />
+              <Route path="/play" element={<GamePage/>} />
+              <Route path="/*" element={<NotFoundPage/>} />
+            </Routes>
+            <Globalstyle/>
+          </SocketContext.Provider>
         </ThemeProvider>
       </Router>
     </div>

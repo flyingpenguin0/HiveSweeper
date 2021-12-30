@@ -13,7 +13,8 @@ import logger from "redux-logger";
 axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "localhost:8000/" : "/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk, logger)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
+console.log(store.getState());
 
 ReactDOM.render(
   <React.StrictMode>
@@ -23,4 +24,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root') 
 );
-

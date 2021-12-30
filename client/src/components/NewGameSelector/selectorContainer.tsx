@@ -1,21 +1,21 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NewGameSelector from "./index";
-import {resetHive, newHive, Window, Level} from "../../modules/hive";
+import {resetHive, newHive, Window, Level} from "../../modules/game";
 import { RootState } from '../../modules';
 
 const SelectorContainer = () => {
-    const hive = useSelector((state:RootState) => state.hive);
+    const game = useSelector((state:RootState) => state.game);
     const dispatch = useDispatch();
 
-    const resetHive = () => {
+    const onResetHive = () => {
         dispatch(resetHive());
     }
-    const newHive = (level : Level, window : Window) => {
+    const onNewHive = (level : Level, window : Window) => {
         dispatch(newHive(level, window));
     }
 
-    return(<NewGameSelector resetHive={resetHive} newHive={newHive} hive={hive} />);
+    return(<NewGameSelector resetHive={onResetHive} newHive={onNewHive} game={game} />);
 }
 
 export default SelectorContainer;
