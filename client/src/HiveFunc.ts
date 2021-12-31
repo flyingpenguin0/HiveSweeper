@@ -1,5 +1,3 @@
-import { Window } from "./modules/game";
-
 export type Cell = {
 	index : number,
 	isBee : boolean,

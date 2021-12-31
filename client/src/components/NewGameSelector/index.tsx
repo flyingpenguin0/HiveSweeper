@@ -1,14 +1,14 @@
 import React, {useState, useContext, useEffect} from "react";
 import styled from "styled-components";
 import { SocketContext } from "../../context/socket";
-import {CellState, Level, Window} from "../../modules/game";
+import {CellState, Level} from "../../modules/game";
 
 //import io, {Socket} from 'socket.io-client';
 //import SocketIOClient from 'socket.io-client';
 
 type SelectorProps = {
     resetHive : () => void;
-    newHive : (level : Level, window : Window) => void;
+    newHive : (level : Level) => void;
     game : {
         hive : Array<CellState>,
         gameOver : boolean,
@@ -35,10 +35,10 @@ const NewGameSelector = ({resetHive, newHive, game} : SelectorProps) => {
         <Wrapper>
             <h5>New Game</h5>
             <ButtonWrapper>
-                <button onClick={()=>newHive(1,0)}>EASY</button>
-                <button onClick={()=>newHive(2,0)}>MEDIUM</button>
-                <button onClick={()=>newHive(3,0)}>HARD</button>
-                <button onClick={()=>newHive(4,0)}>EXTREME</button>
+                <button onClick={()=>newHive(1)}>EASY</button>
+                <button onClick={()=>newHive(2)}>MEDIUM</button>
+                <button onClick={()=>newHive(3)}>HARD</button>
+                <button onClick={()=>newHive(4)}>EXTREME</button>
                 <button onClick={()=>resetHive()}>RESET</button>
             </ButtonWrapper>
         </Wrapper>

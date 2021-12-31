@@ -4,13 +4,13 @@ import { GiBee } from "react-icons/gi";
 import { FaFlag, FaQuestion } from "react-icons/fa";
 
 const Wrapper = styled.div`
-    width: ${Math.sqrt(3)*50}px;
+    width : ${(props : any) => props.children._owner.memoizedProps.width}px;
     position : absolute;
-    top : ${(props) => {
+    top : ${(props : any) => {
         return props.children._owner.memoizedProps.top;
     }}px;
-    left : ${(props : CellProps) => props.children._owner.memoizedProps.left}px;
-    height : 100px;
+    left : ${(props : any) => props.children._owner.memoizedProps.left}px;
+    height : ${(props : any) => props.children._owner.memoizedProps.height}px;
     background-color: var(--darkYellow);
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
 
@@ -30,7 +30,7 @@ const Content = styled.div`
     left:50%;
     transform:translate(-50%,-50%);
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
-    background-color: ${(props) => {
+    background-color: ${(props : any) => {
         if(props.children._owner.memoizedProps.isOpen){
             if(props.children._owner.memoizedProps.isBee){
                 return `crimson`;
@@ -43,8 +43,8 @@ const Content = styled.div`
     }};
     
     &:hover{
-        background-color : ${(props) => props.children._owner.memoizedProps.isOpen? null: `var(--midGrey)`};
-        cursor : ${(props) => props.children._owner.memoizedProps.isOpen ? `auto` : `pointer`};
+        background-color : ${(props : any) => props.children._owner.memoizedProps.isOpen? null: `var(--midGrey)`};
+        cursor : ${(props : any) => props.children._owner.memoizedProps.isOpen ? `auto` : `pointer`};
     }
 
     div{
@@ -56,7 +56,7 @@ const Content = styled.div`
         left:50%;
         transform:translate(-50%,-50%);
         color : black;
-        filter: ${(props)=> props.children._owner.memoizedProps.isOpen && props.children._owner.memoizedProps.isBee? `drop-shadow(0 0 0.75rem black)` : null };
+        filter: ${(props : any)=> props.children._owner.memoizedProps.isOpen && props.children._owner.memoizedProps.isBee? `drop-shadow(0 0 0.75rem black)` : null };
     }
 `;
 
@@ -69,6 +69,8 @@ interface Prr {
     isQuestion : boolean;
     top : number;
     left : number;
+    width : number;
+    height : number;
     leftClick : (index:number) => void;
     rightClick : (index:number) => void;
 }
@@ -82,14 +84,17 @@ type CellProps = {
     isQuestion : boolean;
     top : number;
     left : number;
+    width : number;
+    height : number;
     leftClick : (index:number) => void;
     rightClick : (index:number) => void;
 }
 
+
 const Cell = ( CellProps : CellProps ) => {
     window.addEventListener("contextmenu", e => e.preventDefault());
 
-    const {index, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, leftClick, rightClick} = CellProps;
+    const {index, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, width, height, leftClick, rightClick} = CellProps;
 
     return(
         <Wrapper>

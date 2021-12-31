@@ -13,7 +13,8 @@ export type GameState = {
     gameOver : boolean,
     gameEnd : boolean,
     countHoney : number,
-    countFlag : number
+    countFlag : number,
+    level : number
 }
 
 export type HiveState = Array<CellState>;
@@ -36,18 +37,14 @@ export enum Level{
     EXTREME = 4
 }
 
-export enum Window{
-    landscape = 0,
-    portrait = 1
-}
 
 // action creator
 export const resetHive = () => ({
     type : RESET_HIVE
 });
-export const newHive = (level : Level, window : Window) => ({
+export const newHive = (level : Level) => ({
     type : NEW_HIVE,
-    payload : {level:level, window:window}
+    payload : level
 });
 export const leftClick = (index : number) => ({
     type : LEFT_CLICK,
@@ -69,7 +66,8 @@ let initHiveState : GameState = {
     gameOver : false,
     gameEnd : false,
     countHoney : 0,
-    countFlag : 0
+    countFlag : 0,
+    level:1
 }
 
 // reducer fnc
@@ -86,20 +84,19 @@ const game = (
                 cell.isQuestion = false;
                 return cell;
             });
-            //return Object.assign({}, state, {hive:newState});
             return Object.assign({}, state, {hive:newState, gameOver:false, gameEnd:false, countHoney:0, countFlag:0});
         case NEW_HIVE :
             switch(action.payload){
-                case {level:1, window:0} :
-                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false});
-                case {level:2, window:0} : 
-                    return Object.assign({}, state, {hive:Shuffle(30,20,9), gameOver:false, gameEnd:false});
-                case {level:3, window:0}:
-                    return Object.assign({}, state, {hive:Shuffle(45,30,9), gameOver:false, gameEnd:false});
-                case {level:4, window:0}:
-                    return Object.assign({}, state, {hive:Shuffle(90,40,15), gameOver:false, gameEnd:false});
+                case 1 :
+                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false, level:1});
+                case 2 : 
+                    return Object.assign({}, state, {hive:Shuffle(35,20,11), gameOver:false, gameEnd:false, level:2});
+                case 3 :
+                    return Object.assign({}, state, {hive:Shuffle(80,28,15), gameOver:false, gameEnd:false, level:3});
+                case 4 :
+                    return Object.assign({}, state, {hive:Shuffle(140,40,21), gameOver:false, gameEnd:false, level:4});
                 default:
-                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false});
+                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false, level:1});
             }
         case LEFT_CLICK : 
             let cell : CellState = state.hive[action.payload-1];
@@ -114,10 +111,8 @@ const game = (
                 });
                 let unopened : number = state.hive.filter(cell=>!cell.isBee &&! cell.isOpen).length;
                 if(unopened!=0){
-                    //return {...state, hive:newHive}
                     return Object.assign({}, state, {hive:newHive, countHoney:state.countHoney+1});
                 } else {
-                    //return {...state, hive:newHive, gameEnd:true}
                     return Object.assign({}, state, {hive:newHive, countHoney:state.countHoney+1, gameEnd:true});
                 }
             } else {
@@ -127,8 +122,6 @@ const game = (
                     }
                     return cell;
                 });
-                //state.hive[action.payload-1].isOpen = true;
-                //return {...state, gameOver : true}
                 return Object.assign({}, state, {hive : newHive, gameOver : true});
             }
         case RIGHT_CLICK :
@@ -163,13 +156,13 @@ const game = (
                         } else {
                                 let newHive3 = state.hive.map((cell,index)=>{
                                     if(index == action.payload-1){
-                                        return {...cell, isFlagged:true, countFlag:state.countFlag+1, isQuestion:false}
+                                        return {...cell, isFlagged:true}
                                     }
                                     else {
                                         return cell;
                                     }
                                 });
-                                return Object.assign({}, state, {hive:newHive3});
+                                return Object.assign({}, state, {hive:newHive3, countFlag:state.countFlag+1});
                         }
                         
                     default : 

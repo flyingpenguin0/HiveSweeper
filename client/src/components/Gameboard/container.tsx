@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GameBoard from "./index";
-import {resetHive, newHive, leftClick, rightClick, GameState, HiveState, CellState, Window, Level} from "../../modules/game";
+import {resetHive, newHive, leftClick, rightClick, GameState, HiveState, CellState, Level} from "../../modules/game";
 import { RootState } from '../../modules';
 
 const GameBoardContainer = () => {
@@ -12,8 +12,8 @@ const GameBoardContainer = () => {
     const onResetHive = () => {
         dispatch(resetHive());
     }
-    const onNewHive = (level : Level, window : Window) => {
-        dispatch(newHive(level, window));
+    const onNewHive = (level : Level) => {
+        dispatch(newHive(level));
     }
     const onLeftClick = (index : number) => {
         dispatch(leftClick(index));
