@@ -90,7 +90,7 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 
 			// bottom row ( middle of bottom row )
 			case (totNum - cell.index) < (widthNum - 1) :
-				neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1];
+				neighborlist = [cell.index-widthNum, cell.index-widthNum+1, cell.index-1, cell.index+1];
 				cell.top = (heightNum - 1) * 0.75 * height;
 				cell.left = (widthNum - totNum + cell.index - 1) * width;
 				break;

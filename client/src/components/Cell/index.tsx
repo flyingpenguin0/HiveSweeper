@@ -102,7 +102,7 @@ const Cell = ( CellProps : CellProps ) => {
                     ? <FaFlag/>
                     : isQuestion
                         ? <FaQuestion/>
-                        : !isOpen
+                        : !isOpen || neighbor==0
                             ? null
                             : neighbor
                 }

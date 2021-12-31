@@ -141,7 +141,6 @@ const game = (
                         return state;
                     case false : 
                         if(cell_r.isFlagged){
-                            alert("flag => question");
                                 let newHive = state.hive.map((cell,index)=>{
                                     if(index == action.payload-1){
                                         return {...cell, isFlagged:false, isQuestion:true}
@@ -152,7 +151,6 @@ const game = (
                                 });
                                 return Object.assign({}, state, {hive:newHive, countFlag:state.countFlag-1});
                         } else if(cell_r.isQuestion){
-                            alert("Question->blank");
                                 let newHive2 = state.hive.map((cell,index)=>{
                                     if(index == action.payload-1){
                                         return {...cell, isFlagged:false, isQuestion:false}
@@ -163,7 +161,6 @@ const game = (
                                 });
                                 return Object.assign({}, state, {hive:newHive2});
                         } else {
-                            alert("blank -> flag");
                                 let newHive3 = state.hive.map((cell,index)=>{
                                     if(index == action.payload-1){
                                         return {...cell, isFlagged:true, countFlag:state.countFlag+1, isQuestion:false}
