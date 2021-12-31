@@ -3,23 +3,25 @@ import styled, { DefaultTheme, keyframes, StyledComponent } from "styled-compone
 import { GiBee } from "react-icons/gi";
 import { FaFlag, FaQuestion } from "react-icons/fa";
 
-const Wrapper = styled.div<Prr>`
-    width: ${Math.sqrt(3)*50}px;
+const Wrapper = styled.div`
+    width: 100px;
     position : absolute;
-    text-align : center;
-    margin:auto;
-    top : ${(props : CellProps) => props.top? props.top : 0}px;
-    left : ${(props : CellProps) => props.left? props.left : 0}px;
+    top : ${(props) => {
+        return props.children._owner.memoizedProps.top;
+    }}px;
+    left : ${(props : CellProps) => props.children._owner.memoizedProps.left}px;
     height : 100px;
-    background-color: ${(props) => props.isOpen? `var(--yellow)` : `var(--lightGrey)`};
+    background-color: ${(props) => props.children._owner.memoizedProps.isOpen? `var(--yellow)` : `var(--lightGrey)`};
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
 
     &:hover{
-        background-color : ${(props) => props.isOpen? `var(--yellow)` : `var(--midGrey)`};
-        cursor : ${(props) => props.isOpen ? `auto` : `pointer`};
+        background-color : ${(props) => props.children._owner.memoizedProps.isOpen? `var(--yellow)` : `var(--midGrey)`};
+        cursor : ${(props) => props.children._owner.memoizedProps.isOpen ? `auto` : `pointer`};
     }
     div{
         font-size:2.5rem;
+        width:100%;
+        height:100%;
     }
 `;
 
@@ -52,7 +54,7 @@ type CellProps = {
 const Cell = ( CellProps : CellProps ) => {
     const {index, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, leftClick, rightClick} = CellProps;
 
-    const rightCl = (event:any) => {
+    const rightCl = ( event : React.SyntheticEvent) => {
         event.preventDefault;
         rightClick(index);
     }
