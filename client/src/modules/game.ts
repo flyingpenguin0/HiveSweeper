@@ -12,6 +12,8 @@ export type GameState = {
     hive : HiveState,
     gameOver : boolean,
     gameEnd : boolean,
+    countHoney : number,
+    countFlag : number
 }
 
 export type HiveState = Array<CellState>;
@@ -65,7 +67,9 @@ type HiveAction = ReturnType<typeof resetHive> | ReturnType<typeof newHive> | Re
 let initHiveState : GameState = {
     hive : Shuffle(15,10,9),
     gameOver : false,
-    gameEnd : false
+    gameEnd : false,
+    countHoney : 0,
+    countFlag : 0
 }
 
 // reducer fnc
@@ -83,25 +87,23 @@ const game = (
                 return cell;
             });
             //return Object.assign({}, state, {hive:newState});
-            return {hive:newState, gameOver:false, gameEnd:false};
+            return Object.assign({}, state, {hive:newState, gameOver:false, gameEnd:false, countHoney:0, countFlag:0});
         case NEW_HIVE :
-            //state.hive.splice(0, state.hive.length);
             switch(action.payload){
                 case {level:1, window:0} :
-                    /* state.hive.concat(...Shuffle(15,10,9)); */
-                    return Object.assign({}, state, {hive:Shuffle(15,10,9)});
+                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false});
                 case {level:2, window:0} : 
-                    return Object.assign({}, state, {hive:Shuffle(30,20,9)});
+                    return Object.assign({}, state, {hive:Shuffle(30,20,9), gameOver:false, gameEnd:false});
                 case {level:3, window:0}:
-                    return Object.assign({}, state, {hive:Shuffle(45,30,9)});
+                    return Object.assign({}, state, {hive:Shuffle(45,30,9), gameOver:false, gameEnd:false});
                 case {level:4, window:0}:
-                    return Object.assign({}, state, {hive:Shuffle(90,40,15)});
+                    return Object.assign({}, state, {hive:Shuffle(90,40,15), gameOver:false, gameEnd:false});
                 default:
-                    return Object.assign({}, state, {hive:Shuffle(15,10,9)});
+                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false});
             }
         case LEFT_CLICK : 
             let cell : CellState = state.hive[action.payload-1];
-            if(cell.isOpen || cell.isFlagged || cell.isQuestion){
+            if(cell.isOpen || cell.isFlagged || cell.isQuestion || state.gameOver || state.gameEnd){
                 return state;
             } else if(!cell.isBee){
                 let newHive = state.hive.map((cell, index) =>{
@@ -113,10 +115,10 @@ const game = (
                 let unopened : number = state.hive.filter(cell=>!cell.isBee &&! cell.isOpen).length;
                 if(unopened!=0){
                     //return {...state, hive:newHive}
-                    return Object.assign({}, state, {hive:newHive});
+                    return Object.assign({}, state, {hive:newHive, countHoney:state.countHoney+1});
                 } else {
                     //return {...state, hive:newHive, gameEnd:true}
-                    return Object.assign({}, state, {hive:newHive, gameEnd:true});
+                    return Object.assign({}, state, {hive:newHive, countHoney:state.countHoney+1, gameEnd:true});
                 }
             } else {
                 let newHive = state.hive.map(cell =>{
@@ -132,25 +134,47 @@ const game = (
         case RIGHT_CLICK :
             if(state.gameOver || state.gameEnd){
                 return state;
-            } else{
+            } else {
                 let cell_r : CellState = state.hive[action.payload-1];
                 switch(cell_r.isOpen){
                     case true :
                         return state;
                     case false : 
-                        switch([cell_r.isFlagged, cell_r.isQuestion]){
-                            case [true, false]:
-                                [state.hive[action.payload-1].isFlagged, state.hive[action.payload-1].isQuestion] = [false, true];
-                                return state;
-                            case [false, true]:
-                                [state.hive[action.payload-1].isFlagged, state.hive[action.payload-1].isQuestion] = [false, false];
-                                return state;
-                            case [false, false] :
-                                [state.hive[action.payload-1].isFlagged, state.hive[action.payload-1].isQuestion] = [true, false];
-                                return state;
-                            default :
-                                return state;
+                        if(cell_r.isFlagged){
+                            alert("flag => question");
+                                let newHive = state.hive.map((cell,index)=>{
+                                    if(index == action.payload-1){
+                                        return {...cell, isFlagged:false, isQuestion:true}
+                                    }
+                                    else {
+                                        return cell;
+                                    }
+                                });
+                                return Object.assign({}, state, {hive:newHive, countFlag:state.countFlag-1});
+                        } else if(cell_r.isQuestion){
+                            alert("Question->blank");
+                                let newHive2 = state.hive.map((cell,index)=>{
+                                    if(index == action.payload-1){
+                                        return {...cell, isFlagged:false, isQuestion:false}
+                                    }
+                                    else {
+                                        return cell;
+                                    }
+                                });
+                                return Object.assign({}, state, {hive:newHive2});
+                        } else {
+                            alert("blank -> flag");
+                                let newHive3 = state.hive.map((cell,index)=>{
+                                    if(index == action.payload-1){
+                                        return {...cell, isFlagged:true, countFlag:state.countFlag+1, isQuestion:false}
+                                    }
+                                    else {
+                                        return cell;
+                                    }
+                                });
+                                return Object.assign({}, state, {hive:newHive3});
                         }
+                        
                     default : 
                         return state;
                 }

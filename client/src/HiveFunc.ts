@@ -1,3 +1,4 @@
+import { Window } from "./modules/game";
 
 export type Cell = {
 	index : number,
@@ -11,7 +12,9 @@ export type Cell = {
 }
 
 export const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) : Array<Cell> => {
-	const height : number = 100;
+	//const width : number = Math.floor(window.innerWidth/widthNum);
+	//const height : number = width*2/Math.sqrt(3);
+	const height : number = Math.floor(window.innerHeight*0.8/(heightNum*0.75));
 	const width : number = 0.5*height*Math.sqrt(3);
 	const totNum : number = (widthNum*2-1)*(heightNum-1)*0.5+widthNum;
 
