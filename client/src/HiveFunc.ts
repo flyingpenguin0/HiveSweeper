@@ -11,8 +11,8 @@ export type Cell = {
 }
 
 export const Shuffle = (beeNum : number, widthNum : number, heightNum : number ) : Array<Cell> => {
-	const width : number = 100;
-	const height : number = 0.5*width*Math.sqrt(3);
+	const height : number = 100;
+	const width : number = 0.5*height*Math.sqrt(3);
 	const totNum : number = (widthNum*2-1)*(heightNum-1)*0.5+widthNum;
 
 	/* let list : Array<number> = [Array.from(Array(totNum).keys())].map((x) =>{
@@ -41,12 +41,12 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 				cell.left = 0;
 				break;
 			case cell.index < widthNum :
-				neighborlist = [widthNum-1, widthNum*2-1];
+				neighborlist = [cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum] ;
 				cell.top = 0;
 				cell.left = (cell.index-1) * width;
 				break;
 			case cell.index == widthNum :
-				neighborlist = [cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
+				neighborlist = [widthNum-1, widthNum*2-1] ;
 				cell.top = 0;
 				cell.left = (widthNum-1)*width;
 				break;
@@ -94,13 +94,13 @@ export const Shuffle = (beeNum : number, widthNum : number, heightNum : number )
 
             // not on any borders && on an odd row
             case 1 < cell.index%(2*widthNum-1) && cell.index%(2*widthNum-1) < widthNum:
-                neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
+                neighborlist = [cell.index-widthNum, cell.index-widthNum+1, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
 				cell.top = Math.floor(cell.index/(2*widthNum-1)) * 2 * 0.75 * height ;
 				cell.left = (cell.index % (2*widthNum-1) - 1) * width ;
                 break;
             // not on any borders && on an even row
             case widthNum+1 < cell.index%(2*widthNum-1) && cell.index%(2*widthNum-1) < 2*widthNum - 1:
-                neighborlist = [cell.index-widthNum-1, cell.index-widthNum, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
+                neighborlist = [cell.index-widthNum, cell.index-widthNum+1, cell.index-1, cell.index+1, cell.index+widthNum-1, cell.index+widthNum];
 				cell.top = (Math.floor(cell.index/(2*widthNum-1)) * 2 + 1) * 0.75 * height;
 				cell.left = (cell.index%(2*widthNum-1)-widthNum-1 +0.5)*width;
                 break;
