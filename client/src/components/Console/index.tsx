@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../modules";
 import { socket, SocketContext } from "../../context/socket";
 import { timeFormatter } from "../../utilities/timeformatter";
+import { levelArray } from "../../utilities/Hivegenerator";
 
 const Console = () => {
     const Game : GameState = useSelector((state:RootState) => state.game);
@@ -22,21 +23,13 @@ const Console = () => {
     return(
         <Wrapper>
             <div>Total :
-                <span>{Game.hive.length}</span>
+                <span>{Game.hive.length-levelArray[Game.level-1].beeNum}</span>
             </div>
             <div>Open : <span>{Game.countHoney}</span>
             </div>
             <div>Bees : 
                 <span>
-                    {Game.level==1
-                        ? 15
-                        : Game.level==2
-                            ? 30
-                            : Game.level==3
-                                ? 45
-                                : Game.level==4
-                                    ? 90
-                                    : 15}
+                    {levelArray[Game.level-1].beeNum}
                 </span>
             </div>
             <div>Flags : <span>{Game.countFlag}</span>

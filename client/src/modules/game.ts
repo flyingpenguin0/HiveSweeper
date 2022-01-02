@@ -1,5 +1,6 @@
-import { Shuffle } from "../HiveFunc";
+import { Shuffle } from "../utilities/Hivegenerator";
 import { delay, put } from 'redux-saga/effects';
+import { getNeighbor, levelArray } from "../utilities/Hivegenerator";
 
 //action
 const RESET_HIVE = "game/RESET_HIVE" as const;
@@ -62,7 +63,7 @@ type HiveAction = ReturnType<typeof resetHive> | ReturnType<typeof newHive> | Re
 // initial states
 //let initHiveState : HiveState = Shuffle(15,10,9);
 let initHiveState : GameState = {
-    hive : Shuffle(15,10,9),
+    hive : Shuffle(1),
     gameOver : false,
     gameEnd : false,
     countHoney : 0,
@@ -88,21 +89,21 @@ const game = (
         case NEW_HIVE :
             switch(action.payload){
                 case 1 :
-                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false, level:1});
+                    return Object.assign({}, state, {hive:Shuffle(1), gameOver:false, gameEnd:false, countHoney:0, countFlag:0, level:1});
                 case 2 : 
-                    return Object.assign({}, state, {hive:Shuffle(35,20,11), gameOver:false, gameEnd:false, level:2});
+                    return Object.assign({}, state, {hive:Shuffle(2), gameOver:false, gameEnd:false, countHoney:0, countFlag:0, level:2});
                 case 3 :
-                    return Object.assign({}, state, {hive:Shuffle(80,28,15), gameOver:false, gameEnd:false, level:3});
+                    return Object.assign({}, state, {hive:Shuffle(3), gameOver:false, gameEnd:false, countHoney:0, countFlag:0, level:3});
                 case 4 :
-                    return Object.assign({}, state, {hive:Shuffle(140,40,21), gameOver:false, gameEnd:false, level:4});
+                    return Object.assign({}, state, {hive:Shuffle(4), gameOver:false, gameEnd:false, countHoney:0, countFlag:0, level:4});
                 default:
-                    return Object.assign({}, state, {hive:Shuffle(15,10,9), gameOver:false, gameEnd:false, level:1});
+                    return Object.assign({}, state, {hive:Shuffle(1), gameOver:false, gameEnd:false, countHoney:0, countFlag:0, level:1});
             }
         case LEFT_CLICK : 
             let cell : CellState = state.hive[action.payload-1];
             if(cell.isOpen || cell.isFlagged || cell.isQuestion || state.gameOver || state.gameEnd){
                 return state;
-            } else if(!cell.isBee){
+            } else if(!cell.isBee && cell.neighbor!=0){
                 let newHive = state.hive.map((cell, index) =>{
                     if(index==action.payload-1){
                         cell.isOpen = true;
@@ -114,6 +115,41 @@ const game = (
                     return Object.assign({}, state, {hive:newHive, countHoney:state.countHoney+1});
                 } else {
                     return Object.assign({}, state, {hive:newHive, countHoney:state.countHoney+1, gameEnd:true});
+                }
+
+            } else if(!cell.isBee && cell.neighbor==0){
+                const level = state.level;
+                const widthNum : any = levelArray.find((elem)=>elem.level==level)?.widthNum;
+                const heightNum : any = levelArray.find((elem)=>elem.level==level)?.heightNum;
+
+                let willOpen = new Set([cell.index]);
+                let i : number = 1;
+                while(i!=0){
+                    let before : number = willOpen.size;
+                    willOpen.forEach((num:number)=>{
+                        let thisCell : any = state.hive.find((cell : CellState) => num==cell.index);
+                        if(thisCell.neighbor==0){
+                            let toArr = Array.from(willOpen);
+                            toArr.push(...getNeighbor(num, widthNum, heightNum));
+                            willOpen = new Set(toArr);
+                        }
+                    });
+                    let after : number = willOpen.size;
+                    i = after - before;
+                }
+                let newHive = state.hive.map((cell, index) =>{
+                    if(willOpen.has(index+1)){
+                        cell.isOpen = true;
+                    }
+                    return cell;
+                });
+
+                let unopenedHoney : number = state.hive.filter(cell=>!cell.isBee &&! cell.isOpen).length;
+                let opened : number = state.hive.filter(cell=>cell.isOpen).length;
+                if(unopenedHoney!=0){
+                    return Object.assign({}, state, {hive:newHive, countHoney:opened});
+                } else {
+                    return Object.assign({}, state, {hive:newHive, countHoney:opened, gameEnd:true});
                 }
             } else {
                 let newHive = state.hive.map(cell =>{

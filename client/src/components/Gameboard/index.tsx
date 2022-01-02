@@ -3,12 +3,23 @@ import styled from "styled-components";
 import Cell from "../Cell";
 import { setConstantValue } from "typescript";
 import {HiveState, CellState, Level} from "../../modules/game";
+import { getDimension, levelArray } from "../../utilities/Hivegenerator";
 
 const Wrapper = styled.div`
-    width:100%;
-    height: 90vh;
+    width: ${props=>{
+        let level : number = props.children[0]._owner.memoizedProps.game.level;
+        console.log(level);
+        return getDimension(level).width * levelArray[level-1].widthNum;
+    }}px;
+    height : ${props=>{
+        let level : number = props.children[0]._owner.memoizedProps.game.level;
+        return getDimension(level).height * levelArray[level-1].heightNum * 0.75;
+    }}px;
     border : solid 1px black;
+    background-color : var(--darkGrey);
+    height: 90vh;
     position: relative;
+    margin : 0 auto;
 `;
 
 type HiveProps = {
@@ -27,25 +38,8 @@ type HiveProps = {
 }
 
 const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps) => {
-    let height : number;
-    switch(game.level){
-        case 1 :
-            height = Math.floor(window.innerHeight*0.8/(9*0.75));
-            break;
-        case 2 :
-            height = Math.floor(window.innerHeight*0.8/(11*0.75)); 
-            break;
-        case 3 : 
-            height = Math.floor(window.innerHeight*0.8/(15*0.75)); 
-            break;
-        case 4 : 
-            height = Math.floor(window.innerHeight*0.8/(21*0.75)); 
-            break;
-        default : 
-            height = Math.floor(window.innerHeight*0.8/(9*0.75)); 
-    }
-
-    const width : number = 0.5*height*Math.sqrt(3);
+    let height : number = getDimension(game.level).height;
+    let width : number = getDimension(game.level).width;
 
     return(
         <Wrapper>
@@ -59,10 +53,10 @@ const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps
                     isOpen={cell.isOpen}
                     isFlagged={cell.isFlagged}
                     isQuestion={cell.isQuestion}
-                    top={cell.top}
-                    left={cell.left}
-                    width={width}
-                    height={height}
+                    top={cell.top*height}
+                    left={cell.left*width}
+                    width={width*0.95}
+                    height={height*0.95}
                     leftClick={leftClick}
                     rightClick={rightClick}
                     />
@@ -72,4 +66,4 @@ const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps
     )
 }
 
-export default GameBoard;
+export default React.memo(GameBoard);

@@ -27,4 +27,4 @@ const GameBoardContainer = () => {
     );
 }
 
-export default GameBoardContainer;
+export default React.memo(GameBoardContainer);
