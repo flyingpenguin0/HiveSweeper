@@ -11,7 +11,6 @@ const Wrapper = styled.div`
     }}px;
     left : ${(props : any) => props.children._owner.memoizedProps.left}px;
     height : ${(props : any) => props.children._owner.memoizedProps.height}px;
-    background-color: var(--darkYellow);
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
 
     div{
@@ -29,21 +28,21 @@ const Content = styled.div`
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
-    clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
+    clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     background-color: ${(props : any) => {
         if(props.children._owner.memoizedProps.isOpen){
             if(props.children._owner.memoizedProps.isBee){
-                return `crimson`;
+                return `#302108`;
             } else {
-                return `var(--yellow)`
+                return `var(--darkYellow)`
             }
         } else {
-            return `var(--lightGrey)`;
+            return `var(--yellowGrey)`;
         }
     }};
     
     &:hover{
-        background-color : ${(props : any) => props.children._owner.memoizedProps.isOpen? null: `var(--midGrey)`};
+        background-color : ${(props : any) => props.children._owner.memoizedProps.isOpen? null: `var(--yellow)`};
         cursor : ${(props : any) => props.children._owner.memoizedProps.isOpen ? `auto` : `pointer`};
     }
 
@@ -55,8 +54,8 @@ const Content = styled.div`
         top:50%;
         left:50%;
         transform:translate(-50%,-50%);
-        color : black;
-        filter: ${(props : any)=> props.children._owner.memoizedProps.isOpen && props.children._owner.memoizedProps.isBee? `drop-shadow(0 0 0.75rem black)` : null };
+        color : ${(props : any)=> props.children._owner.memoizedProps.isOpen && props.children._owner.memoizedProps.isBee? `#800202` : `black` };
+        
     }
 `;
 
@@ -118,5 +117,5 @@ const Cell = ( CellProps : CellProps ) => {
     )
 }
 
-export default Cell;
+export default React.memo(Cell);
 
