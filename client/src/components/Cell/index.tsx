@@ -1,7 +1,67 @@
-import React from "react";
+import React, {useContext, useEffect, useState} from "react";
 import styled, { DefaultTheme, keyframes, StyledComponent } from "styled-components";
 import { GiBee } from "react-icons/gi";
 import { FaFlag, FaQuestion } from "react-icons/fa";
+import {SocketContext} from "../../context/socket";
+import { RootState } from "../../modules";
+import { useSelector } from "react-redux";
+
+type CellProps = {
+    index : number;
+    isBee : boolean;
+    neighbor : number;
+    isOpen : boolean;
+    isFlagged : boolean;
+    isQuestion : boolean;
+    top : number;
+    left : number;
+    width : number;
+    height : number;
+    leftClick : (index:number) => void;
+    rightClick : (index:number) => void;
+}
+
+const Cell = ( CellProps : CellProps ) => {
+    window.addEventListener("contextmenu", e => e.preventDefault());
+    const {index, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, width, height, leftClick, rightClick} = CellProps;
+    const Game = useSelector((state:RootState) => state.game);
+    const socket = useContext(SocketContext);
+    const [gameOver, setGameOver] = useState(false);
+    const [gameEnd, setGameEnd] = useState(false);
+
+    useEffect(()=>{
+        setGameEnd(Game.gameEnd);
+        setGameOver(Game.gameOver);
+
+        if(Game.gameOver){
+            socket.emit("gameOver");
+        }
+        if(Game.gameEnd){
+            socket.emit("gameEnd");
+        }
+    },[Game]);
+
+    return(
+        <Wrapper>
+            <div>
+                <Content onClick={()=>leftClick(index)} onContextMenu={()=>rightClick(index)}>
+                <div>
+                {isOpen && isBee
+                    ? <GiBee/>
+                    : isFlagged
+                    ? <FaFlag/>
+                    : isQuestion
+                        ? <FaQuestion/>
+                        : !isOpen || neighbor==0
+                            ? null
+                            : neighbor
+                }
+                </div>
+                </Content>
+            </div>
+        </Wrapper>
+    )
+}
 
 const Wrapper = styled.div`
     width : ${(props : any) => props.children._owner.memoizedProps.width}px;
@@ -58,64 +118,6 @@ const Content = styled.div`
         
     }
 `;
-
-interface Prr {
-    index : number;
-    isBee : boolean;
-    neighbor : number;
-    isOpen : boolean;
-    isFlagged : boolean;
-    isQuestion : boolean;
-    top : number;
-    left : number;
-    width : number;
-    height : number;
-    leftClick : (index:number) => void;
-    rightClick : (index:number) => void;
-}
-
-type CellProps = {
-    index : number;
-    isBee : boolean;
-    neighbor : number;
-    isOpen : boolean;
-    isFlagged : boolean;
-    isQuestion : boolean;
-    top : number;
-    left : number;
-    width : number;
-    height : number;
-    leftClick : (index:number) => void;
-    rightClick : (index:number) => void;
-}
-
-
-const Cell = ( CellProps : CellProps ) => {
-    window.addEventListener("contextmenu", e => e.preventDefault());
-
-    const {index, isBee, neighbor, isOpen, isFlagged, isQuestion, top, left, width, height, leftClick, rightClick} = CellProps;
-
-    return(
-        <Wrapper>
-            <div>
-                <Content onClick={()=>leftClick(index)} onContextMenu={()=>rightClick(index)}>
-                <div>
-                {isOpen && isBee
-                    ? <GiBee/>
-                    : isFlagged
-                    ? <FaFlag/>
-                    : isQuestion
-                        ? <FaQuestion/>
-                        : !isOpen || neighbor==0
-                            ? null
-                            : neighbor
-                }
-                </div>
-                </Content>
-            </div>
-        </Wrapper>
-    )
-}
 
 export default React.memo(Cell);
 
