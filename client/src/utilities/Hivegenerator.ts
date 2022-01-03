@@ -169,7 +169,7 @@ export const getDimension = (level : number) => {
 	const widthNum : any = levelArray.find((elem)=>elem.level==level)?.widthNum;
 	const heightNum : any= levelArray.find((elem)=>elem.level==level)?.heightNum;
 
-	const maxHeight : number = window.innerHeight*0.8/(heightNum*0.75);
+	const maxHeight : number = window.innerHeight*0.75/(heightNum*0.75);
 	const maxWidth : number = window.innerWidth/widthNum;
 
 	let height : number;

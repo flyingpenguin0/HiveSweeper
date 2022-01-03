@@ -115,6 +115,12 @@ const Content = styled.div`
         left:50%;
         transform:translate(-50%,-50%);
         color : ${(props : any)=> props.children._owner.memoizedProps.isOpen && props.children._owner.memoizedProps.isBee? `#800202` : `black` };
+
+        @media (max-width: 991.98px) {
+            font-size:1.5rem;
+            font-weight:bold;
+            height:1.5rem;
+        }
         
     }
 `;
