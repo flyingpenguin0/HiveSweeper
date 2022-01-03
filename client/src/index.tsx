@@ -12,9 +12,6 @@ import logger from "redux-logger";
 //axios
 axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "localhost:8000/" : "/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
-
-window.addEventListener("contextmenu", e => e.preventDefault());
-
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
 console.log(store.getState());
 
