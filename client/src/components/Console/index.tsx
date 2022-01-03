@@ -3,13 +3,18 @@ import styled from "styled-components";
 import {GameState, HiveState, CellState, Level} from "../../modules/game";
 import { useSelector } from "react-redux";
 import { RootState } from "../../modules";
-import { socket, SocketContext } from "../../context/socket";
+import { SocketContext } from "../../context/socket";
 import { timeFormatter } from "../../utilities/timeformatter";
 import { levelArray } from "../../utilities/Hivegenerator";
 
 const Console = () => {
     const Game : GameState = useSelector((state:RootState) => state.game);
     const socket = useContext(SocketContext);
+    console.log(socket);
+
+    socket.on("connect", ()=>{
+        console.log(socket.id);
+    });
 
     const [timer, setTimer] = useState('');
 
@@ -18,7 +23,7 @@ const Console = () => {
             console.log(timeFormatter(data.sec));
             setTimer(timeFormatter(data.sec));
         })
-    },[timer]);
+    },[timer, socket]);
 
     return(
         <Wrapper>

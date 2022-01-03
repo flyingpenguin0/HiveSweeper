@@ -2,7 +2,7 @@ import React from "react";
 import { io, Socket } from "socket.io-client";
 //import { SOCKET_URL } from "config";
 
-let SOCKET_URL = "http://localhost:8000";
+let SOCKET_ENDPOINT : string = "http://localhost:8000";
 
 export type game = {
     index : number;
@@ -23,6 +23,6 @@ export interface ClientToServerEvents {
     hello: () => void;
     createRecord : (name:string, level:string) => void;
 }
-export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_URL);
+export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_ENDPOINT);
 
 export const SocketContext : React.Context<Socket> = React.createContext(socket);

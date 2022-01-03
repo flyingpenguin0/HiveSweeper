@@ -5,23 +5,6 @@ import { setConstantValue } from "typescript";
 import {HiveState, CellState, Level} from "../../modules/game";
 import { getDimension, levelArray } from "../../utilities/Hivegenerator";
 
-const Wrapper = styled.div`
-    width: ${props=>{
-        let level : number = props.children[0]._owner.memoizedProps.game.level;
-        console.log(level);
-        return getDimension(level).width * levelArray[level-1].widthNum;
-    }}px;
-    height : ${props=>{
-        let level : number = props.children[0]._owner.memoizedProps.game.level;
-        return getDimension(level).height * levelArray[level-1].heightNum * 0.75;
-    }}px;
-    border : solid 1px black;
-    background-color : var(--darkGrey);
-    height: 90vh;
-    position: relative;
-    margin : 0 auto;
-`;
-
 type HiveProps = {
     resetHive : () => void;
     newHive : (level : Level, window : Window) => void;
@@ -65,5 +48,22 @@ const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps
         </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    width: ${(props:any)=>{
+        let level : number = props.children[0]._owner.memoizedProps.game.level;
+        console.log(level);
+        return getDimension(level).width * levelArray[level-1].widthNum;
+    }}px;
+    height : ${(props:any)=>{
+        let level : number = props.children[0]._owner.memoizedProps.game.level;
+        return getDimension(level).height * levelArray[level-1].heightNum * 0.75;
+    }}px;
+    border : solid 1px black;
+    background-color : var(--darkGrey);
+    height: 90vh;
+    position: relative;
+    margin : 0 auto;
+`;
 
 export default React.memo(GameBoard);

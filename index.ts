@@ -6,7 +6,7 @@ const helmet = require("helmet");
 app.use(helmet());
 
 require("dotenv").config({path:__dirname+'/.env'});
-const PORT = process.env.PORT || 8000;
+const PORT : number = Number(process.env.PORT) || 8000;
 
 const cors = require("cors");
 app.use(cors());
@@ -76,37 +76,49 @@ import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 const httpServer = createServer();
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>();
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer,
+    {cors : {
+        origin : "http://localhost:3000",
+        methods:["GET","POST"],
+    }}
+);
 
 io.on("connection", ( socket:Socket ) =>{
+    console.log(socket.id);
+
     let start : Date;
     let end : Date;
     let level : string;
 
-    let maxTime = 24*60*60;
-    let timeOutID : NodeJS.Timeout;
+    let maxTime = 60*60*12;
+    let timeOutID : ReturnType<typeof setTimeout>;
+    //let endTimer : boolean = true;
+
+    type callbackType = () => void;
     const timer = {
-        start : () => {
-            for(let i=0; i<maxTime; i++){  
-                timeOutID = setTimeout(()=>{
-                    socket.emit("timer",{sec:i} );
-                    console.log(i);
-                },1000*i);
-        
-                if(i==maxTime-1){
-                    clearTimeout(timeOutID);
+        start : () : void => {
+            let i = 0;
+            timeOutID = setInterval(()=>{
+                socket.emit("timer", {sec:i} );
+                console.log(i);
+                i++;
+                if(i==maxTime){
+                    clearInterval(timeOutID);
                 }
-            }
+            }, 1000);
+
         },
-        end : () => {
-            clearTimeout(timeOutID);
+        end : () : void => {
+            clearInterval(timeOutID);
         }
     }
 
     socket.on("newGame",(data) => {
+        timer.end();
         start = new Date();
         level = data.level;
         timer.start();
+
     });
     socket.on("gameOver", ()=>{
         timer.end();
@@ -125,10 +137,10 @@ io.on("connection", ( socket:Socket ) =>{
 
     socket.on("disconnect", ()=>{
         console.log("socket disconnected");
+        timer.end();
     });
 })
 
-const http = require("http").Server(app);
 httpServer.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });

@@ -29,17 +29,42 @@ const NewGameSelector = ({resetHive, newHive, game} : SelectorProps) => {
 
     useEffect(()=>{
         refresh("EASY");
-    },[])
+    },[]);
+
+    const onClickEasy = () => {
+        newHive(1);
+        refresh("EASY");
+    }
+
+    const onClickMed = () => {
+        newHive(2);
+        refresh("MEDIUM");
+    }
+
+    const onClickHard = () => {
+        newHive(3);
+        refresh("HARD");
+    }
+
+    const onClickExt = () => {
+        newHive(4);
+        refresh("EXTREME");
+    }
+
+    const onClickReset = () => {
+        resetHive();
+        refresh("EASY");
+    }
 
     return(
         <Wrapper>
             <h5>New Game</h5>
             <ButtonWrapper>
-                <button onClick={()=>newHive(1)}>EASY</button>
-                <button onClick={()=>newHive(2)}>MEDIUM</button>
-                <button onClick={()=>newHive(3)}>HARD</button>
-                <button onClick={()=>newHive(4)}>EXTREME</button>
-                <button onClick={()=>resetHive()}>RESET</button>
+                <button onClick={onClickEasy}>EASY</button>
+                <button onClick={onClickMed}>MEDIUM</button>
+                <button onClick={onClickHard}>HARD</button>
+                <button onClick={onClickExt}>EXTREME</button>
+                <button onClick={onClickReset}>RESET</button>
             </ButtonWrapper>
         </Wrapper>
     )
