@@ -11,7 +11,10 @@ router.post("/", (req: express.Request, res : express.Response) => {
 
 router.get("/:level", (req : express.Request, res : express.Response) => {
     GameModel.findByLevel(req.params.level)
-    .then((game : game ) => {res.json(game)})
+    .then((game : game ) => {
+        res.json(game);
+        console.log(game);
+    })
     .catch((err : any) => res.status(500).send(err));
 });
 
