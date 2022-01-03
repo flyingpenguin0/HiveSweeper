@@ -92,7 +92,6 @@ io.on("connection", ( socket:Socket ) =>{
 
     let maxTime = 60*60*12;
     let timeOutID : ReturnType<typeof setTimeout>;
-    //let endTimer : boolean = true;
 
     type callbackType = () => void;
     const timer = {
@@ -123,7 +122,7 @@ io.on("connection", ( socket:Socket ) =>{
     socket.on("gameOver", ()=>{
         timer.end();
     });
-    socket.on("endGame", ()=>{
+    socket.on("gameEnd", ()=>{
         end = new Date();
         timer.end();
     });
