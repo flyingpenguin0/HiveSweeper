@@ -1,9 +1,11 @@
 # HiveSweeper
 - A Minesweeper with a Hexagonal Grid
-- view in [Korean](./Readme_kr.md)
+- view in [영어](./Readme.md)
 
 # Working demo link 
 
+ 개발 미완성
+ 
 # Installation prerequisites 
 You will need : 
   1. Node.js and npm installed on your machine
