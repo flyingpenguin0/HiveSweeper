@@ -1,6 +1,6 @@
 # HiveSweeper
 - A Minesweeper with a Hexagonal Grid
-- 육각형 그리드를 사용하는 변형 지뢰찾기 웹 게임
+- view in [Korean](./Readme_kr.md)
 
 # Working demo link 
 
@@ -26,6 +26,14 @@ You will need :
 2. Choose the levels you wish to play : 
 
 3. Rules of the game : 
+ - Every hexagonal cell has 2 ~ 6 adjacent cells.
+ - There are a total number of 15, 35, 75 bees ( depending on the level ), each occupying a cell.
+ - Left-clicking opens a cell and reveals its contents. 
+ - Opening a cell which is occupied by a bee aborts the game ( Game over )
+ - Opening a cell which is not occupied by a bee reveals its contents, which is the number of adjacent cells occupied by a bee. 
+ - A cell which doesn't have any adjacent bee-occupied cells will reveal a blank content and will open every adjacent blank cells and its neighboring cells automatically.
+ - Right-clicking marks an unopened cell with a flag, a question mark, and cylces back to a blank state on each consecutive click. Users cannot mark a cell which is already open.
+ - Opening all the unoccupied cell completes the game.
 
 4. Check how high you scored on the leaderboard : 
 
