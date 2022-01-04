@@ -9,7 +9,12 @@ require("dotenv").config({path:__dirname+'/.env'});
 const PORT : number = Number(process.env.PORT) || 8000;
 
 const cors = require("cors");
-app.use(cors());
+const corsOptions = {cors : {
+    origin : process.env.CLIENT_URL || "http://localhost:3000",
+    methods:["GET","POST"],
+    credentials : true,
+}}
+app.use(cors(corsOptions));
 
 // MongoDB / Mongoose connection Setup
 const mongoose = require("mongoose");
@@ -29,17 +34,23 @@ connection.once("open", ()=>{
 
 import { Game, game, gameSchema } from "./models/database";
 const GameModel = require("./models/database");
-const autoIncrement = require("mongoose-auto-increment");
+
+/* const autoIncrement = require("mongoose-auto-increment");
 autoIncrement.initialize(connection);
 gameSchema.plugin(autoIncrement.plugin,{
     model : "GameModel",
     field : "index",
     startAt : 1,
     increment : 1
-});
+}); */
 
 const gameRouter = require("./routes/game");
 app.use("/api", gameRouter);
+
+app.get('/dd', (req,res)=>{
+    console.log("hwhwhw");
+    res.send("hello");
+});
 
 // Serve the files for the built React app
 //app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -74,14 +85,9 @@ interface SocketData {
 
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
-const httpServer = createServer();
+const httpServer = createServer(app);
 
-const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer,
-    {cors : {
-        origin : "http://localhost:3000",
-        methods:["GET","POST"],
-    }}
-);
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(httpServer, corsOptions);
 
 io.on("connection", ( socket:Socket ) =>{
     console.log(socket.id);
@@ -140,6 +146,6 @@ io.on("connection", ( socket:Socket ) =>{
     });
 })
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, "localhost", () => {
     console.log(`Server listening on ${PORT}`);
 });

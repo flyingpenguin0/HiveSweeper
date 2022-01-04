@@ -1,29 +1,37 @@
-import React , {useRef} from "react";
+import React, {useRef} from "react";
 import styled from "styled-components";
-//import { useForm } from "react-hook-form";
+import axios from "axios";
 
 type ModalProp = {
-    toggle : ()=>void;
+    toggle : () => void;
 }
 
-const ModalContacts = ({toggle}:ModalProp)  => {
+const ModalGameEnd = ({toggle} : ModalProp )  => {
     const username = useRef(null);
     
-    const onSubmit = () => {
+    const onClick = () => {
+        axios({
+            method:"post",
+            url:"/api",
+            data:{index:1, name:"Mango", level:"EASY", time:365},
+            withCredentials:true
+        }).then((res)=>{
+            console.log(res.data);
+        }).catch(err=>console.log(err));
+
         toggle();
     }
 
-    return(   
-        <Wrapper>
+    return(
+    <Wrapper>
+        <div>CONGRATULATIONS</div>
         <Form>
-            <p>Contact me at : </p>
+            <p>Save your score!</p>
             <input placeholder="NAME" ref={username}/>
-            <input placeholder="EMAIL" ref={username}/>
-            <input placeholder="TITLE" ref={username}/>
-            <input placeholder="MESSAGE" ref={username}/>
-            <button onClick={onSubmit}>Send</button>
+            <button onClick={onClick}>Send</button>
         </Form>
-    </Wrapper>);
+    </Wrapper>
+    );
 }
 
 const Wrapper = styled.div`
@@ -31,10 +39,13 @@ const Wrapper = styled.div`
     height:fit-content;
     position:fixed;
     padding:3rem;
+    font-size:3rem;
+    font-weight:bold;
+    color:lime;
     border-radius:3rem;
-    border : solid 10px yellow;
+    border : solid 10px lime;
     background-color:${props=>props.theme.mainBackground};
-    filter:drop-shadow(0 0 1rem yellow);
+    filter:drop-shadow(0 0 1rem green);
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
@@ -42,10 +53,8 @@ const Wrapper = styled.div`
 `;
 
 const Form = styled.div`
-    display:flex;
-    flex-direction:column;
     width:fit-content;
-    height:fit-content;
+    height:3rem;
     margin-top : 2rem;
     margin-bottom : 2rem;
     margin-right:auto;
@@ -65,7 +74,6 @@ const Form = styled.div`
         padding:0.5rem;
         color:lime;
         background-color:inherit;
-        margin:1rem;
 
         :focus{
             border-bottom:solid 1px lime;
@@ -78,4 +86,4 @@ const Form = styled.div`
 `
 
 
-export default ModalContacts;
+export default ModalGameEnd;

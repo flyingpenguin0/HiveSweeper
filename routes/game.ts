@@ -1,6 +1,6 @@
 import express = require('express');
 const router = require('express').Router();
-import { Game, game } from "../models/database";
+import { Game, game, gameSchema, Level } from "../models/database";
 const GameModel = require("../models/database");
 
 router.post("/", (req: express.Request, res : express.Response) => {

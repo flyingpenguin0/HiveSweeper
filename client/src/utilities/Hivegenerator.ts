@@ -17,8 +17,7 @@ export type Cell = {
 }
 
 export const Shuffle = (level : number ) : Array<Cell> => {
-	//const width : number = Math.floor(window.innerWidth/widthNum);
-	//const height : number = width*2/Math.sqrt(3);]
+	
 	const beeNum : any = levelArray.find((elem)=>elem.level==level)?.beeNum;
 	const widthNum : any = levelArray.find((elem)=>elem.level==level)?.widthNum;
 	const heightNum : any = levelArray.find((elem)=>elem.level==level)?.heightNum;
@@ -27,9 +26,6 @@ export const Shuffle = (level : number ) : Array<Cell> => {
 	const width : number = 0.5*height*Math.sqrt(3);
 	const totNum : number = (widthNum*2-1)*(heightNum-1)*0.5+widthNum;
 
-	/* let list : Array<number> = [Array.from(Array(totNum).keys())].map((x) =>{
-			return(x++)
-		}); */
 	let list = new Array(totNum).fill(null).map((_, i) => i + 1);
 	let shuffledList : Array<number> = list.map((value) => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value);
 

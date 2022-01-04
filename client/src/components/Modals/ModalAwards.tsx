@@ -17,29 +17,47 @@ const ModalAwards = ()  => {
     const [rank, setRank] = useState([]);
     
     useEffect(()=>{
-        axios.get("http://localhost:8000/api/1",{withCredentials: true}).then((res)=>{
+        axios.get("/api",{withCredentials: true}).then((res)=>{
             console.log(res.data);
             setRank(res.data);
         }).catch(err=>console.log(err));
     },[]);
 
     return(<Wrapper>
+        <p>Rank</p>
         {rank.length==0
             ? <div>Empty</div>
-            : rank.map((record:Rank)=> <li><span>{record.name}</span><span>{record.time}</span></li> )
+            : (<ul>
+                {rank.map((record:Rank) => <li><span>{record.name}</span><span>{record.time}</span></li>)}
+            </ul>)
         }
     </Wrapper>);
 }
 
 const Wrapper = styled.div`
     width:50%;
-    height:70vh;
+    height:fit-content;
     position:fixed;
-    background-color:white;
+    padding:3rem;
+    border-radius:3rem;
+    border : solid 10px yellow;
+    background-color:${props=>props.theme.mainBackground};
+    filter:drop-shadow(0 0 1rem yellow);
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
     z-index : 10;
+
+    p{
+        color:yellow;
+        font-size:2.5rem;
+        text-align:center;
+    }
+
+    ul {
+        display:flex;
+        flex-direction:column
+    }
 `;
 
 

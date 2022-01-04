@@ -47,7 +47,7 @@ const Console = () => {
                     <BeeProgress width={Game.countFlag/(levelArray[Game.level-1].beeNum)}></BeeProgress>
                 </Progressbox>
             </BeeContent>
-            <Timer>
+            <Timer gameOver={Game.gameOver} gameEnd={Game.gameEnd}>
                 <BsFillAlarmFill/> {timer}
             </Timer>
         </Wrapper>
@@ -165,15 +165,15 @@ const BeeProgress = styled.div<{width:number}>`
     background-color:green;
 `;
 
-const Timer = styled.div`
+const Timer = styled.div<{gameOver:boolean, gameEnd:boolean}>`
     padding:0.5rem;
     border-radius:1rem;
-    border : solid 0.2rem tomato;
+    border : solid 0.2rem ${props=>props.gameEnd ? `lime` : props.gameOver? `gray` : `tomato`};
     background-color:${props=>props.theme.mainBackground};
     font-size:1.2rem;
     font-weight:bolder;
-    color:tomato;
-    filter:drop-shadow(0 0 0.3rem black);
+    color:${props=>props.gameEnd ? `lime` : props.gameOver? `gray` : `tomato`};
+    filter:drop-shadow(0 0 0.3rem ${props=>props.gameEnd? `green`: `black`});
 `;
 
 export default React.memo(Console);

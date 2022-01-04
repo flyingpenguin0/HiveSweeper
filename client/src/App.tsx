@@ -58,7 +58,7 @@ const App = ()=> {
               toggled[2]
                 ? (
                   <>
-                    <ModalContacts/>
+                    <ModalContacts toggle={onClickScreen}/>
                     <ModalScreen toggle={onClickScreen}/>
                   </>
                 )

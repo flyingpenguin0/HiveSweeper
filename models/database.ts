@@ -19,11 +19,11 @@ export type game = {
     time : number;
 }
 
-enum Level{
+export enum Level{
     EASY = 1,
-    MEDIUM,
-    HARD,
-    EXTREME
+    MEDIUM =2,
+    HARD =3,
+    EXTREME =4
 }
 
 export const gameSchema = new Schema<Game>({
@@ -35,7 +35,7 @@ export const gameSchema = new Schema<Game>({
     timestamps: true
 });
 
-export const GameModel = model<Game>("Game", gameSchema);
+//export const GameModel = model<Game>("Game", gameSchema);
 
 gameSchema.statics.create = async function(payload : game[]){
     const game = await new this(payload);
@@ -49,3 +49,5 @@ gameSchema.statics.findByLevel = async function(payload : Level){
 gameSchema.statics.findAll = async function(){
     return await this.find({});
 }
+
+module.exports = mongoose.model("Game", gameSchema);
