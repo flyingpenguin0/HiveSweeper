@@ -4,8 +4,8 @@ import styled, { css, DefaultTheme } from 'styled-components';
 export const theme_dark : DefaultTheme = {
     mainBackground: `#333`,
     title: `rgba(255,255,255,0.85)`,
-    primaryText: `#FBB917`,
-    secondaryText: `rgba(255,255,255,0.45)`,
+    primaryText: `rgba(255,255,255)`,
+    secondaryText: `rgba(255,255,255,0.65)`,
     disable: `rgba(255,255,255,0.25)`,
     border: `rgba(255,255,255,0.15)`,
     divider: `rgba(255,255,255,0.06)`,
