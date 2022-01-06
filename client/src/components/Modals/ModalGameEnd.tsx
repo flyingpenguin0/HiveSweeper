@@ -1,33 +1,53 @@
-import React, {useRef} from "react";
+import React, {useRef, useState, useContext} from "react";
 import styled from "styled-components";
 import axios from "axios";
+import {SocketContext} from "../../context/socket";
+import {RootState} from "../../modules/index";
+import { useSelector } from "react-redux";
 
 type ModalProp = {
     toggle : () => void;
+    level : string;
 }
 
-const ModalGameEnd = ({toggle} : ModalProp )  => {
-    const username = useRef(null);
+const ModalGameEnd = ({toggle, level} : ModalProp )  => {
+    const [name, setName] = useState('');
+    const nameInput = useRef<HTMLInputElement>(null);
+    const socket = useContext(SocketContext);
+    const game = useSelector((state:RootState) => state.game);
+    //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8;application/json';
     
-    const onClick = () => {
-        axios({
-            method:"post",
-            url:"/api",
-            data:{index:1, name:"Mango", level:"EASY", time:365},
-            withCredentials:true
-        }).then((res)=>{
-            console.log(res.data);
-        }).catch(err=>console.log(err));
+    const onChange = (e: { target: { value: string; }; }) : void => {
+        let newName : string = e.target.value;
+        setName(newName);
+    }
 
+    const onReset = () : void => {
+        setName('');
+    }
+    const getLevelString = (level:number) : string =>{
+        let array = ["EASY","MEDIUM","HARD","EXTREME"];
+        return array[level-1];
+    }
+
+    const onClick = () : void =>{
+        let data = {
+            name:name,
+            level:getLevelString(game.level)
+        }
+        socket.emit("createRecord", data );
+        onReset();
         toggle();
     }
+    socket.on("record_succ", (data)=>{console.log(data.game)});
+    socket.on("record_err", (data)=>{console.log(data.err)});
 
     return(
     <Wrapper>
         <div>CONGRATULATIONS</div>
         <Form>
             <p>Save your score!</p>
-            <input placeholder="NAME" ref={username}/>
+            <input placeholder="NAME" onChange={onChange} ref={nameInput} value={name} minLength={1} maxLength={10}/>
             <button onClick={onClick}>Send</button>
         </Form>
     </Wrapper>
