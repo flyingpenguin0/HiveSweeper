@@ -1,10 +1,7 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useContext, useEffect} from "react";
 import styled from "styled-components";
 import { SocketContext } from "../../context/socket";
 import {CellState, Level} from "../../modules/game";
-
-//import io, {Socket} from 'socket.io-client';
-//import SocketIOClient from 'socket.io-client';
 
 type SelectorProps = {
     resetHive : () => void;
@@ -17,10 +14,6 @@ type SelectorProps = {
 }
 
 const NewGameSelector = ({resetHive, newHive, game} : SelectorProps) => {
-    //const socketRef : SocketIOClient = useRef();
-    //const SOCKET_SERVER_URL = 'http://localhost:4000';
-    //const socket : Socket = io("http://localhost:8000/");
-
     const socket = useContext(SocketContext);
 
     const refresh = (level:string) => {
@@ -30,6 +23,7 @@ const NewGameSelector = ({resetHive, newHive, game} : SelectorProps) => {
     useEffect(()=>{
         refresh("EASY");
     },[]);
+
 
     const onClickEasy = () => {
         newHive(1);
