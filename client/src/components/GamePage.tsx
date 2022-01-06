@@ -1,26 +1,32 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 //components
-import GameBoard from "./Gameboard";
 import GameBoardContainer from "./Gameboard/container";
 import Console from "./Console";
 import SelectorContainer from "./NewGameSelector/selectorContainer";
 import styled from "styled-components";
-import { RootState } from "../modules";
-import { useSelector } from "react-redux";
+//modal components
 import ModalScreen from "./Modals/ModalScreen";
 import ModalGameEnd from "./Modals/ModalGameEnd";
 import ModalGameOver from "./Modals/ModalGameOver";
+//dispatch actions
+import { resetHive } from "../modules/game";
+import { reset } from "../modules/counter";
+import { RootState } from "../modules";
+import { useDispatch, useSelector } from "react-redux";
+import { SocketContext } from "../context/socket";
 
 const GamePage : React.FC = () => {
     const Game = useSelector((state:RootState) => state.game);
     const [toggled, setToggled] = useState([false, false]);
+    const socket = useContext(SocketContext);
+    const dispatch = useDispatch();
+    
     const onClickScreen = () : void => {
         let newState = [false, false];
         setToggled(newState);
     }
 
     useEffect(()=>{
-        // refresh state?
         if(Game.gameEnd){
             let newState = [false,true];
             setToggled(newState);
@@ -30,6 +36,14 @@ const GamePage : React.FC = () => {
             setToggled(newState);
         }
     },[Game]);
+
+    useEffect(()=>{
+        return ()=>{
+            dispatch(resetHive());
+            dispatch(reset());
+            socket.emit("gameOver");
+        }
+    }, [dispatch]);
 
     return(
         <Wrapper>
@@ -51,7 +65,7 @@ const GamePage : React.FC = () => {
             toggled[1]
                 ? (
                 <>
-                    <ModalGameEnd toggle={onClickScreen}/>
+                    <ModalGameEnd toggle={onClickScreen} level={"EASY"}/>
                     <ModalScreen toggle={onClickScreen}/>
                 </>
                 )
