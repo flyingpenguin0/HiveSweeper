@@ -1,15 +1,45 @@
-import React , {useRef} from "react";
+import axios from "axios";
+import React , {useRef, useState} from "react";
 import styled from "styled-components";
-//import { useForm } from "react-hook-form";
 
 type ModalProp = {
     toggle : ()=>void;
 }
 
 const ModalContacts = ({toggle}:ModalProp)  => {
-    const username = useRef(null);
+    const name = useRef<HTMLInputElement>(null);
+    const email = useRef<HTMLInputElement>(null);
+    const title = useRef<HTMLInputElement>(null);
+    const content = useRef(null);
+    
+
+    const [feedback, setFeedback]=useState({
+        name:"",
+        email:"",
+        title:"",
+        content:""
+    });
+
+    const onChange = (e:any) => {
+        setFeedback({
+            ...feedback,
+            [e.target.name]:e.target.value
+        });
+    }
     
     const onSubmit = () => {
+        axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8;application/json';
+        axios({
+            method:"post",
+            url:"http://localhost:8000/api/feedback",
+            data:feedback
+        }).then((res)=>{
+            console.log(res.data);
+            alert("Feedback has been sent");
+        }).catch((err)=>{
+            console.log(err);
+            alert("Failed to send feedback.");
+        })
         toggle();
     }
 
@@ -17,10 +47,10 @@ const ModalContacts = ({toggle}:ModalProp)  => {
         <Wrapper>
         <Form>
             <p>Contact me at : </p>
-            <input placeholder="NAME" ref={username}/>
-            <input placeholder="EMAIL" ref={username}/>
-            <input placeholder="TITLE" ref={username}/>
-            <input placeholder="MESSAGE" ref={username}/>
+            <input placeholder="NAME" name="name" ref={name} maxLength={16} onChange={onChange}/>
+            <input placeholder="EMAIL" name="email" ref={email} maxLength={40} onChange={onChange}/>
+            <input placeholder="TITLE" name="title" ref={title} maxLength={40} onChange={onChange}/>
+            <textarea placeholder="MESSAGE" name="content" ref={content} minLength={1} maxLength={300} onChange={onChange}/>
             <button onClick={onSubmit}>Send</button>
         </Form>
     </Wrapper>);
@@ -39,6 +69,11 @@ const Wrapper = styled.div`
     left:50%;
     transform:translate(-50%,-50%);
     z-index : 10;
+
+    @media (max-width: 991.98px) {
+        min-width:90%;
+        height:80vh;
+    }
 `;
 
 const Form = styled.div`
@@ -58,22 +93,45 @@ const Form = styled.div`
     }
 
     input{
+        display:block;
+        width:500px;
         border-bottom:solid 1px grey;
         border-top : none;
         border-left : none;
         border-right : none;
         padding:0.5rem;
-        color:lime;
+        color:grey;
         background-color:inherit;
         margin:1rem;
 
         :focus{
+            color:lime;
             border-bottom:solid 1px lime;
             border-top : none;
             border-left : none;
             border-right : none;
             outline:none;
         }
+    }
+
+    textarea {
+        display:block;
+        width:500px;
+        height:8rem;
+        box-sizing: border-box;
+        background-color:inherit;
+        padding:0.5rem;
+        margin:1rem;
+        resize:none;
+        color:grey;
+
+        :focus {
+            color: white;
+            border-left:solid 1px lime;
+            outline:none;
+        }
+
+        
     }
 `
 
