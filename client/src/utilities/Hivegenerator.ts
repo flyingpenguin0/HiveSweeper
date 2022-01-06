@@ -120,7 +120,6 @@ export const Shuffle = (level : number ) : Array<Cell> => {
 		
         return(cell);
 	});
-	console.log(cells2);
 	return( cells2);
 }
 
