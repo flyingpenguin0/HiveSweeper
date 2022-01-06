@@ -40,11 +40,11 @@ const gameRouter = require("./routes/game");
 app.use("/api", gameRouter);
 
 // Serve the files for the built React app
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, './client/build')));
 
 // All other requests will return the React app
 app.get('/*', (req : express.Request, res : express.Response) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 
