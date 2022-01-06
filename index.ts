@@ -10,7 +10,7 @@ const PORT : number = Number(process.env.PORT) || 8000;
 
 const cors = require("cors");
 const corsOptions = {cors : {
-    origin : process.env.CLIENT_URL || "http://localhost:3000",
+    origin : true,
     methods:["GET","POST"],
     credentials : true,
 }}
@@ -35,22 +35,9 @@ connection.once("open", ()=>{
 import { Game, game, gameSchema } from "./models/database";
 const GameModel = require("./models/database");
 
-/* const autoIncrement = require("mongoose-auto-increment");
-autoIncrement.initialize(connection);
-gameSchema.plugin(autoIncrement.plugin,{
-    model : "GameModel",
-    field : "index",
-    startAt : 1,
-    increment : 1
-}); */
 
 const gameRouter = require("./routes/game");
 app.use("/api", gameRouter);
-
-app.get('/dd', (req,res)=>{
-    console.log("hwhwhw");
-    res.send("hello");
-});
 
 // Serve the files for the built React app
 //app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -132,9 +119,11 @@ io.on("connection", ( socket:Socket ) =>{
         end = new Date();
         timer.end();
     });
+
     socket.on("createRecord", (data)=>{
-        let passedSeconds = (end.getTime()-start.getTime()) *0.001;
-        let content = {name : data.name, level : data.level, time : passedSeconds};
+        let passedSeconds = Math.floor((end.getTime()-start.getTime()) *0.001);
+        let content = {"name" : data.name, "level" : data.level, "time" : passedSeconds};
+        console.log(content);
         GameModel.create(content)
         .then( (game:game) => socket.emit("record_succ", game))
         .catch( (err: any) => socket.emit("record_err", err));
