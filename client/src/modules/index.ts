@@ -1,7 +1,6 @@
 import { combineReducers } from "redux";
 import counter from "./counter";
 import game from "./game";
-import leaderboard from "./leaderboard";
 
 const rootReducer = combineReducers({
     counter,
