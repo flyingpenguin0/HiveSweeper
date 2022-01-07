@@ -22,11 +22,12 @@ You will need :
 # About this Web Service
 
 
-0. Premise : A Web-based game similar to the classic game Minesweeper. Instead of landmines, users must avoid bees while collect honey from hive cells. 
+##0. Premise : 
+  A Web-based game similar to the classic game Minesweeper. Instead of landmines, users must avoid bees while collect honey from hive cells. 
   ![hivesweeper_01](https://user-images.githubusercontent.com/91243754/148010446-d829d579-ddb2-4cac-a842-43b253bd3e2e.gif)
 
 
-1. Rules of the game : 
+##1. Rules of the game : 
   - Every hexagonal cell has 2 ~ 6 adjacent cells.
   - There are a total number of 15, 35, 75 bees ( depending on the level ), each occupying a cell.
   - Left-clicking opens a cell and reveals its contents. 
@@ -38,7 +39,7 @@ You will need :
 
 
 
-2. About this web service : 
+##2. About this web service : 
   - SPA (Single Page Application) web app
  .
  
