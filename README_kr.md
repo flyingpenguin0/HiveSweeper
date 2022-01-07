@@ -1,6 +1,6 @@
 # HiveSweeper
 - A Minesweeper with a Hexagonal Grid
-- view in [영어](./Readme.md)
+- view in [영어](/Readme.md)
 
 # Working demo link 
 
