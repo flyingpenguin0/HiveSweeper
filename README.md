@@ -41,18 +41,18 @@
 
 ## 2. About this web service : 
   ### - SPA (Single Page Application) web app
- .
+ 
  
   ### - Records and Fetches game results
     - Create MongoDB Document based name/level data from client + timer data from express server
     - A RESTful endpoint to create/read/delete db documents
     - Axios and http-proxy-middleware used to connect to the endpoint from the front-end server
-  .
+  
   
   ### - User interactions ( ex ) left/right click ) 
     - Redux store used to manage and provide states
     - Actions dispatches based on several user actions(left/right click)
- .
+ 
 
 
   ### - Websocket communications used to sync client timer to the server timer
