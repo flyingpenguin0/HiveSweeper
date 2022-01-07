@@ -10,8 +10,8 @@ import rootReducer from "./modules";
 import ReduxThunk from "redux-thunk";
 import logger from "redux-logger";
 //axios
-axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "localhost:8000/" : "/";
-axios.defaults.headers.post["Content-Type"] = "application/json";
+//axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:8000/" : "/";
+//axios.defaults.headers.post["Content-Type"] = "application/json";
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger)));
 console.log(store.getState());
 

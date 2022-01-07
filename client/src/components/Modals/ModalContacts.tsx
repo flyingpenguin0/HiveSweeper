@@ -1,6 +1,7 @@
 import axios from "axios";
 import React , {useRef, useState} from "react";
 import styled from "styled-components";
+import ENDPOINT from "../../config";
 
 type ModalProp = {
     toggle : ()=>void;
@@ -31,7 +32,7 @@ const ModalContacts = ({toggle}:ModalProp)  => {
         axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8;application/json';
         axios({
             method:"post",
-            url:"http://localhost:8000/api/feedback",
+            url:`${ENDPOINT}/api/feedback`,
             data:feedback
         }).then((res)=>{
             console.log(res.data);

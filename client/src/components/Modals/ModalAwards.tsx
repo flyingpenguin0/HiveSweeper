@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {timeFormatter} from "../../utilities/timeformatter";
+import ENDPOINT from "../../config";
 
 type ModalProp = {
     isToggled : boolean
@@ -26,7 +27,7 @@ const ModalAwards = ()  => {
     useEffect(()=>{
         axios({
             method:"get",
-            url:`http://localhost:8000/api/${level}`
+            url:`${ENDPOINT}/api/${level}`
         }).then((res)=>{
             setRank(res.data);
         }).catch(err=>console.log(err));
