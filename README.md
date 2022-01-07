@@ -27,14 +27,14 @@ You will need :
 
 
 1. Rules of the game : 
- - Every hexagonal cell has 2 ~ 6 adjacent cells.
- - There are a total number of 15, 35, 75 bees ( depending on the level ), each occupying a cell.
- - Left-clicking opens a cell and reveals its contents. 
- - Opening a cell which is occupied by a bee aborts the game ( Game over )
- - Opening a cell which is not occupied by a bee reveals its contents, which is the number of adjacent cells occupied by a bee. 
- - A cell which doesn't have any adjacent bee-occupied cells will reveal a blank content and will open every adjacent blank cells and its neighboring cells automatically.
- - Right-clicking marks an unopened cell with a flag, a question mark, and cylces back to a blank state on each consecutive click. Users cannot mark a cell which is already open.
- - Opening all the unoccupied cell completes the game.
+   - Every hexagonal cell has 2 ~ 6 adjacent cells.
+   - There are a total number of 15, 35, 75 bees ( depending on the level ), each occupying a cell.
+   - Left-clicking opens a cell and reveals its contents. 
+   - Opening a cell which is occupied by a bee aborts the game ( Game over )
+   - Opening a cell which is not occupied by a bee reveals its contents, which is the number of adjacent cells occupied by a bee. 
+   - A cell which doesn't have any adjacent bee-occupied cells will reveal a blank content and will open every adjacent blank cells and its neighboring cells automatically.
+   - Right-clicking marks an unopened cell with a flag, a question mark, and cylces back to a blank state on each consecutive click. Users cannot mark a cell which is already open.
+   - Opening all the unoccupied cell completes the game.
 
 
 
