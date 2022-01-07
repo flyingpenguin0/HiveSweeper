@@ -9,6 +9,8 @@ You will need :
   1. Node.js and npm installed on your machine
   2. A MongoDB Atlas account & instance  w/ your URI key
  
+ 
+ 
  Installation steps : 
   1. Clone Git repository  `git clone https://github.com/flyingpenguin0/HiveSweeper.git`
   2. In the root of the project directory, run the command  `npm install`
@@ -18,8 +20,11 @@ You will need :
   
   
 # About this Web Service
+
+
 0. Premise : A Web-based game similar to the classic game Minesweeper. Instead of landmines, users must avoid bees while collect honey from hive cells. 
   ![hivesweeper_01](https://user-images.githubusercontent.com/91243754/148010446-d829d579-ddb2-4cac-a842-43b253bd3e2e.gif)
+
 
 1. Rules of the game : 
  - Every hexagonal cell has 2 ~ 6 adjacent cells.
@@ -30,6 +35,8 @@ You will need :
  - A cell which doesn't have any adjacent bee-occupied cells will reveal a blank content and will open every adjacent blank cells and its neighboring cells automatically.
  - Right-clicking marks an unopened cell with a flag, a question mark, and cylces back to a blank state on each consecutive click. Users cannot mark a cell which is already open.
  - Opening all the unoccupied cell completes the game.
+
+
 
 2. About this web service : 
  - SPA (Single Page Application) web app
