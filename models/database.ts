@@ -61,8 +61,6 @@ gameSchema.statics.deleteAll = async function(){
     return await this.deleteMany({});
 }
 
-require("dotenv").config({path:__dirname+'../.env'});
-
 const autoIncrement = require("mongoose-auto-increment");
 autoIncrement.initialize(mongoose.connection);
 
