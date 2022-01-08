@@ -13,7 +13,7 @@ router.post("/", (req: express.Request, res : express.Response) => {
     .catch( (err : any) => res.status(500).send(err));
 });
 
-router.get("/:level", (req : express.Request, res : express.Response) => {
+router.get("/level/:level", (req : express.Request, res : express.Response) => {
     GameModel.findTopTenByLevel(req.params.level)
     .then((game : Array<game> ) => {
         res.json(game);
@@ -40,7 +40,7 @@ router.delete("/level/:level", (req : express.Request, res : express.Response) =
 });
 
 router.delete("/id/:id", (req : express.Request, res : express.Response) => {
-    GameModel.deleteByID(req.params.level)
+    GameModel.deleteByID(parseInt(req.params.id))
     .then((result : any) => {res.json(result)})
     .catch((err:any)=>{res.status(500).send(err)});
 });
