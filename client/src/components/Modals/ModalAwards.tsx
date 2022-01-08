@@ -21,13 +21,13 @@ const ModalAwards = ()  => {
     const [level, setLevel] = useState("EASY");
 
     const onClick = (e : any) => {
-        setLevel(e.target.value);
+        setLevel(e.target.name);
     }
     
     useEffect(()=>{
         axios({
             method:"get",
-            url:`${ENDPOINT}/api/${level}`
+            url:`${ENDPOINT}/api/level/${level}`
         }).then((res)=>{
             setRank(res.data);
         }).catch(err=>console.log(err));
@@ -35,11 +35,11 @@ const ModalAwards = ()  => {
 
     return(<Wrapper>
         <ButtonBox>
-            <p>Top 5</p>
+            <p>Top 10</p>
             <div>
-                <button value="EASY" onClick={onClick}>EASY</button>
-                <button value="MEDIUM"  onClick={onClick}>MEDIUM</button>
-                <button value="HARD"  onClick={onClick}>HARD</button>
+                <button name="EASY" onClick={onClick}>EASY</button>
+                <button name="MEDIUM"  onClick={onClick}>MEDIUM</button>
+                <button name="HARD"  onClick={onClick}>HARD</button>
             </div>
         </ButtonBox>
         {rank.length==0
@@ -85,7 +85,7 @@ const Wrapper = styled.div`
     li{
         width:90%;
         display:flex;
-        justify-contents:space-between;
+        justify-content:space-between;
 
         span{
             font-size:1.5rem;
@@ -121,11 +121,7 @@ const ButtonBox = styled.div`
     justify-content:space-between;
     width:90%;
     height:fit-content;
-    margin:0.5rem;
-    
-    
+    margin:0.5rem; 
 `;
-
-
 
 export default ModalAwards;
