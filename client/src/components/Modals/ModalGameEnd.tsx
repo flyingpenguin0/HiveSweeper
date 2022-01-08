@@ -15,8 +15,7 @@ const ModalGameEnd = ({toggle, level} : ModalProp )  => {
     const nameInput = useRef<HTMLInputElement>(null);
     const socket = useContext(SocketContext);
     const game = useSelector((state:RootState) => state.game);
-    //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8;application/json';
-    
+
     const onChange = (e: { target: { value: string; }; }) : void => {
         let newName : string = e.target.value;
         setName(newName);
