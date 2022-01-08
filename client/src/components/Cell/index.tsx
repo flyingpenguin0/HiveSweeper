@@ -5,6 +5,7 @@ import { FaFlag, FaQuestion } from "react-icons/fa";
 import {SocketContext} from "../../context/socket";
 import { RootState } from "../../modules";
 import { useSelector } from "react-redux";
+import { NumberSchemaDefinition } from "mongoose";
 
 type CellProps = {
     index : number;
@@ -42,9 +43,9 @@ const Cell = ( CellProps : CellProps ) => {
     },[Game]);
 
     return(
-        <Wrapper>
+        <Wrapper width={width} height={height} top={top} left={left}>
             <div>
-                <Content onClick={()=>leftClick(index)} onContextMenu={()=>rightClick(index)}>
+                <Content isOpen={isOpen} isBee={isBee} onClick={()=>leftClick(index)} onContextMenu={()=>rightClick(index)}>
                 <div>
                 {isOpen && isBee
                     ? <GiBee/>
@@ -63,14 +64,26 @@ const Cell = ( CellProps : CellProps ) => {
     )
 }
 
-const Wrapper = styled.div`
-    width : ${(props : any) => props.children._owner.memoizedProps.width}px;
+interface CellWrapper {
+    width : number,
+    height : number,
+    top : number,
+    left : number
+}
+
+interface CellContent {
+    isOpen : boolean,
+    isBee : boolean
+}
+
+const Wrapper = styled.div<CellWrapper>`
+    width : ${(props : any) => props.width}px;
     position : absolute;
-    top : ${(props : any) => {
-        return props.children._owner.memoizedProps.top;
+    top : ${(props) => {
+        return props.top;
     }}px;
-    left : ${(props : any) => props.children._owner.memoizedProps.left}px;
-    height : ${(props : any) => props.children._owner.memoizedProps.height}px;
+    left : ${(props) => props.left}px;
+    height : ${(props) => props.height}px;
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); 
 
     div{
@@ -80,7 +93,7 @@ const Wrapper = styled.div`
     }   
 `;
 
-const Content = styled.div`
+const Content = styled.div<CellContent>`
     margin : 0.1rem;
     width : 70%;
     height: 70%;
@@ -89,9 +102,9 @@ const Content = styled.div`
     left:50%;
     transform:translate(-50%,-50%);
     clip-path : polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    background-color: ${(props : any) => {
-        if(props.children._owner.memoizedProps.isOpen){
-            if(props.children._owner.memoizedProps.isBee){
+    background-color: ${(props) => {
+        if(props.isOpen){
+            if(props.isBee){
                 return `#302108`;
             } else {
                 return `var(--darkYellow)`
@@ -102,8 +115,8 @@ const Content = styled.div`
     }};
     
     &:hover{
-        background-color : ${(props : any) => props.children._owner.memoizedProps.isOpen? null: `var(--yellow)`};
-        cursor : ${(props : any) => props.children._owner.memoizedProps.isOpen ? `auto` : `pointer`};
+        background-color : ${(props) => props.isOpen? null: `var(--yellow)`};
+        cursor : ${(props) => props.isOpen ? `auto` : `pointer`};
     }
 
     div{
@@ -114,7 +127,7 @@ const Content = styled.div`
         top:50%;
         left:50%;
         transform:translate(-50%,-50%);
-        color : ${(props : any) => props.children._owner.memoizedProps.isOpen && props.children._owner.memoizedProps.isBee ? `#800202` : `black`};
+        color : ${(props) => props.isOpen && props.isBee ? `#800202` : `black`};
 
         @media (max-width: 991.98px) {
             font-size:1.5rem;
