@@ -23,10 +23,18 @@ type HiveProps = {
 const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps) => {
     let height : number = getDimension(game.level).height;
     let width : number = getDimension(game.level).width;
+    let level : number = game.level;
+
+    const wrapper : React.CSSProperties= {
+        width: `${getDimension(level).width * levelArray[level-1].widthNum}px`,
+        height : `${getDimension(level).height * levelArray[level-1].heightNum * 0.75}px`,
+        position: `relative`,
+        margin : `0 auto`
+    }
 
     return(
-        <Wrapper>
-            {game.hive.map((cell) =>{
+        <div style ={wrapper}>
+            {game.hive.map((cell, i) =>{
                 return(
                     <Cell
                     key={cell.index}
@@ -45,21 +53,10 @@ const GameBoard = ({resetHive, newHive, leftClick, rightClick, game} : HiveProps
                     />
                 )
             })}
-        </Wrapper>
+        </div>
     )
 }
 
-const Wrapper = styled.div`
-    width: ${(props:any)=>{
-        let level : number = props.children[0]._owner.memoizedProps.game.level;
-        return getDimension(level).width * levelArray[level-1].widthNum;
-    }}px;
-    height : ${(props:any)=>{
-        let level : number = props.children[0]._owner.memoizedProps.game.level;
-        return getDimension(level).height * levelArray[level-1].heightNum * 0.75;
-    }}px;
-    position: relative;
-    margin : 0 auto;
-`;
+
 
 export default React.memo(GameBoard);
