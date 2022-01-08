@@ -75,7 +75,7 @@ const GamePage : React.FC = () => {
     )
 }
 
-export default GamePage;
+export default React.memo(GamePage);
 const Wrapper = styled.div`
     width:100%;
     height:100vh;
