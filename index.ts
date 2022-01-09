@@ -135,6 +135,6 @@ io.on("connection", ( socket:Socket ) =>{
     });
 })
 
-httpServer.listen(PORT, "localhost", () => {
+httpServer.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
