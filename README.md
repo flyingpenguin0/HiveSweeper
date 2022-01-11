@@ -47,7 +47,7 @@ https://www.hivesweeper.site:8000/intro
   ### - Records and Fetches game results
     - Create MongoDB Document based name/level data from client + timer data from express server
     - A RESTful endpoint to create/read/delete db documents
-    - Axios and http-proxy-middleware used to connect to the endpoint from the front-end server
+    - Axios and websockets used to connect to the endpoint from the front-end server
   
   
   ### - User interactions ( ex ) left/right click ) 
