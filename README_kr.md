@@ -3,6 +3,7 @@
 - [영어](/README.md)로 보기
 
 # 데모 링크
+https://www.hivesweeper.site:8000/intro
 
 # 설치 방법 
 ## 필요 : 
@@ -19,23 +20,23 @@
   5. 패키지 dependency를 설치합니다. : `npm install`
   
   
-# About this Web Service
+# 웹 서비스 설명
 
 
-## 0. Premise : 
-  A Web-based game similar to the classic game Minesweeper. Instead of landmines, users must avoid bees while collect honey from hive cells. 
+## 0. 개요 : 
+  유저들은 지뢰 대신 벌이 들어있는 칸을 피해서 꿀이 들어있는 셀을 모두 클릭하여 우승할 수 있는 지뢰찾기 변형 게임.
   ![hivesweeper_01](https://user-images.githubusercontent.com/91243754/148010446-d829d579-ddb2-4cac-a842-43b253bd3e2e.gif)
 
 
-## 1. Rules of the game : 
-  - Every hexagonal cell has 2 ~ 6 adjacent cells.
-  - There are a total number of 15, 35, 75 bees ( depending on the level ), each occupying a cell.
-  - Left-clicking opens a cell and reveals its contents. 
-  - Opening a cell which is occupied by a bee aborts the game ( Game over )
-  - Opening a cell which is not occupied by a bee reveals its contents, which is the number of adjacent cells occupied by a bee. 
-  - A cell which doesn't have any adjacent bee-occupied cells will reveal a blank content and will open every adjacent blank cells and its neighboring cells automatically.
-  - Right-clicking marks an unopened cell with a flag, a question mark, and cylces back to a blank state on each consecutive click. Users cannot mark a cell which is already open.
-  - Opening all the unoccupied cell completes the game.
+## 1. 게임의 규칙 : 
+  - 각 셀들은 위치에 따라 2~6개의 셀들과 이웃합니다.
+  - 레벨에 따라 15, 35, 75개의 벌이 들어있는 칸들이 존재합니다.
+  - 좌클릭은 셀을 오픈하고 내용물을 공개합니다.  
+  - 벌이 들어있는 셀이 오픈되면 게임이 중단됩니다. ( Game over )
+  - 벌이 들어있지 않은 셀이 오픈되면 그 셀의 2~6개의 이웃 중 벌이 들어있는 셀의 숫자가 공개됩니다.
+  - 이웃 중 벌이 있는 셀이 없는 경우 빈 칸이 공개되며 빈 칸을 오픈하면 이웃하는 모든 빈 칸과 그의 이웃들이 함께 오픈됩니다. 
+  - 우클릭은 오픈 전인 셀을 클릭 수에 따라 깃발과 물음표로 표시하고, 추가 클릭으로 다시 빈 칸으로 되돌릴 수 있습니다. 이미 열려있는 셀은 표시할수 없습니다.
+  - 벌이 없는 모든 셀을 오픈하면 게임이 종료됩니다. (Game Win)
 
 
 
@@ -44,17 +45,16 @@
  
  
   ### - Records and Fetches game results
-    - Create MongoDB Document based name/level data from client + timer data from express server
-    - A RESTful endpoint to create/read/delete db documents
-    - Axios and http-proxy-middleware used to connect to the endpoint from the front-end server
+    - 서버의 타이머 데이터와 클라이언트의 이름/레벨 데이터로 MongoDB Document 생성.
+    - DB Document의 create/read/delete 가능한 RESTful endpoint.
+    - Axios와 Socket통신으로 API 앤ㄷ포인트와 프론트엔드 서버 연결.
   
   
-  ### - User interactions ( ex ) left/right click ) 
-    - Redux store used to manage and provide states
-    - Actions dispatches based on several user actions(left/right click)
+  ### - 유저와 상호작용 ( ex ) 좌/우클릭 ) 
+    - Redux로 스토어 생성, 상태 관리 
+    - 유저의 행동에 기반한 액션 디스패치
  
 
-
   ### - Websocket communications used to sync client timer to the server timer
-    - Socket.io used to control server timer at game start / over / finish
+    - 게임 시작 / 중단 / 종료 시 서버 타이머를 조절하기 위해 Socket.io 사용
   
