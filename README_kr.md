@@ -55,6 +55,6 @@ https://www.hivesweeper.site:8000/intro
     - 유저의 행동에 기반한 액션 디스패치
  
 
-  ### - Websocket communications used to sync client timer to the server timer
+  ### - 웹 소켓으로 서버와 클라이언트 타이머 연동
     - 게임 시작 / 중단 / 종료 시 서버 타이머를 조절하기 위해 Socket.io 사용
   
