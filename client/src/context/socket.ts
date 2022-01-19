@@ -21,6 +21,8 @@ export interface ClientToServerEvents {
     hello: () => void;
     createRecord : (name:string, level:string) => void;
 }
-export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(ENDPOINT);
+export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io("/", {
+    secure:true
+});
 
 export const SocketContext : React.Context<Socket> = React.createContext(socket);

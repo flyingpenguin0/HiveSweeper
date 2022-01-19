@@ -1,6 +1,5 @@
 import React, {useRef, useState, useContext} from "react";
 import styled from "styled-components";
-import axios from "axios";
 import {SocketContext} from "../../context/socket";
 import {RootState} from "../../modules/index";
 import { useSelector } from "react-redux";
